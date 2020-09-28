@@ -8,13 +8,18 @@ function Box (props){
         if(props.colour%2===1) return "burlywood";
         else return "rgb(100, 60, 7)";
     }
-    return (
-        <div className='box' style={{backgroundColor:background()}} onClick={props.onClick}>         
-           {props.v}
-
-        </div>
-        
-    );
+    if(props.v!==0){
+        return (
+            <div className='box' style={{backgroundColor:background()}} onClick={props.onClick}>         
+                {props.v}
+            </div>     
+        );
+    }
+    else{
+        return (
+            <div className='box' style={{backgroundColor:background()}} onClick={props.onClick}></div>
+        );
+    }
 }
 
 export default Box
