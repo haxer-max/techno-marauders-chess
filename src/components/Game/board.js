@@ -1,10 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { Socket } from 'socket.io-client';
 import './../../App.css';
 import Box from './Board/box.js'
 
 
-const Board=({BoardState,setBoardState,size})=>{
+const Board=({BoardState,setBoardState,size,setFunc,emmitmoved})=>{
+    
+
+    
     function movepiece(i,j){
+        if(i!==undefined&&j!==undefined){
+        console.log("board state is "+ i + " "+j)
+        console.log(BoardState)
         if(BoardState.selected_box===-1){
             if(BoardState.a[i][j]!==0){
                 
@@ -25,8 +32,12 @@ const Board=({BoardState,setBoardState,size})=>{
                 selected_box:-1
             });
         }
+    }
  
     }
+    setFunc((i,j)=>movepiece(i,j));
+
+    
     function renbox(i,j){
        // console.log(i+ "h"+j)
         return (
@@ -34,7 +45,9 @@ const Board=({BoardState,setBoardState,size})=>{
                 key={j+i*size}
                 colour={j+i*size}
                 v={BoardState.a[i][j]} 
-                onClick={()=>{movepiece(i,j)}}
+                onClick={()=>{
+                   emmitmoved(i,j)
+                }}
             />
         );
     }
@@ -62,7 +75,9 @@ const Board=({BoardState,setBoardState,size})=>{
 
 /*
  class Board extends React.Component{
-    size=9
+    /*constructor(props){
+        super(props);
+    }
     state={
         
         a:[[1,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]],

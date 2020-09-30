@@ -9,9 +9,10 @@ h1{
     font-size: larger;
     font-weight: 1000;
     width: 60px;
+    min-width: 60px;
     height: 60px;
     text-align: center;
-    display: inline-block;
+    display: inline;
     display: table-cell; 
     vertical-align: middle;
 }

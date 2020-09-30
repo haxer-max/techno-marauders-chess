@@ -7,7 +7,11 @@ let rooms={};
 app.use(cors({origin: 'http://localhost:3000'}));
 
 io.on('connection', socket => {
-    //console.log("user connected");
+    console.log(`${ socket.id } connected`);
+    socket.on('moved', (data) => {
+        console.log(data)
+        io.to(rooms[socket.id]).emit('move',data)
+    });
     socket.on('greet', (data) => {
       console.log(data);
       console.log(rooms)
@@ -17,15 +21,16 @@ io.on('connection', socket => {
       io.to(rooms[socket.id]).emit('greeti', data);
       //io.emit('greeti', data);
     });
-    socket.on('create', (data)=>{
-        rooms[socket.id]=ind.toString();
-        console.log(rooms);
-        console.log("la")
-        console.log(ind.toString())
-        socket.join(ind.toString());
-        socket.emit('roomid',ind.toString())
-        ind++;
+    socket.on('greet', (data) => {
+        console.log(data);
+        console.log(rooms)
+        console.log(socket.id)
+        console.log(rooms[socket.id])
+        //socket.broadcast.emit('greeti', data);
+        io.to(rooms[socket.id]).emit('greeti', data);
+        //io.emit('greeti', data);
     });
+    
     socket.on('join', (data)=>{
         console.log(data)
         rooms[socket.id]=data;
@@ -34,8 +39,23 @@ io.on('connection', socket => {
         socket.join(data);
         socket.emit('roomid',data)
     });
-    socket.on('disconnect', () => {console.log('user disconnected');});
-  });
+    socket.on('disconnect', () => {console.log(`${ socket.id } disconnected`);});
+ 
+
+
+
+
+/*
+    socket.on('create', (data)=>{
+        rooms[socket.id]=ind.toString();
+        console.log(rooms);
+        console.log("la")
+        console.log(ind.toString())
+        socket.join(ind.toString());
+        socket.emit('roomid',ind.toString())
+        ind++;
+    });*/
+});
 
 
 server.listen(4000, () => {

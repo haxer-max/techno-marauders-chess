@@ -2,18 +2,25 @@ import React, { useState, useRef, useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Game from "./components/Game/game.js";
-import io from "socket.io-client";
+//import Game from "./components/Game/chat.js";
+import Join from "./components/join.js"
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-//const socket = io('ws://localhost:4000');
-/*
+
+
 function App() {
   return (
     <div>
-        <Game/>
+        <Router>
+        <Route path="/" exact component={Join} />
+        <Route path="/game" component={Game} />
+        </Router>
     </div>
   );
 }
-*/
+/*
+import io from "socket.io-client";
+const socket = io('ws://localhost:4000');
 let socket;
 
 const App = () => {
@@ -98,5 +105,5 @@ const App = () => {
         );
     }
 };
-
+*/
 export default App;
