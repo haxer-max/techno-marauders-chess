@@ -5,7 +5,7 @@ import Game from "./components/Game/game.js";
 import io from "socket.io-client";
 
 //const socket = io('ws://localhost:4000');
-
+/*
 function App() {
   return (
     <div>
@@ -13,51 +13,90 @@ function App() {
     </div>
   );
 }
-/*
+*/
+let socket;
 
 const App = () => {
-    const [messages, setMessages] = useState([]);
+    const soc = { socket: undefined };
+    const [messages, setMessages] = useState(["a", "b"]);
+    const [g, setG] = useState(0);
+    const [text, setText] = useState("");
     const socketRef = useRef();
-    useEffect(() => {
-        socketRef.current = io("http://localhost:4000");
 
-        socketRef.current.on("connect", () => {
+    useEffect(() => {
+        socket = io("http://localhost:4000");
+
+        socket.on("connect", () => {
             console.log("connected");
         });
-        socketRef.current.on("greeti", (data) => {
-            setMessages([...messages, data]);
-            console.log("got" + data);
-            //recieveMsg(data);
+        socket.on("greeti", (message) => {
+            setMessages((messages) => [...messages, message]);
+        });
+
+        socket.on("roomid", (data) => {
+            setG(data);
+            console.log(g);
+            console.log("room " + data);
         });
 
         return () => {
-            socketRef.current.disconnect();
+            socket.disconnect();
         };
-    });
+    }, []);
 
     function sendMsg(e) {
         e.preventDefault();
-
-        socketRef.current.emit("greet", "hey");
+        socket.emit("greet", "hey");
         console.log("sent" + "hey");
     }
 
+    function create() {
+        socket.emit("create", "yay");
+    }
+    function join() {
+        console.log("joining");
+        socket.emit("join", text);
+    }
 
-    return (
-        <div>
+    if (g === 0) {
+        return (
             <div>
-                {messages.map((message, index) => {
-                    return <li key={index}>{message}</li>;
-                })}
+                <button
+                    onClick={() => {
+                        create(soc);
+                    }}
+                >
+                    create
+                </button>
+
+                <input
+                    onChange={(e) => {
+                        setText(e.target.value);
+                    }}
+                    value={text}
+                    type="text"
+                />
+                <p>{text}</p>
+                <button onClick={join}>join</button>
             </div>
+        );
+    } else {
+        return (
             <div>
-                <form onSubmit={sendMsg}>
-                    <button type="submit">send</button>
-                </form>
+                <p>{g}</p>
+                <div>
+                    {messages.map((message, index) => {
+                        return <li key={index}>{message}</li>;
+                    })}
+                </div>
+                <div>
+                    <form onSubmit={sendMsg}>
+                        <button type="submit">send</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 };
 
-*/
 export default App;

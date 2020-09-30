@@ -1,13 +1,70 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './../../App.css';
 import Box from './Board/box.js'
 
 
+const Board=({BoardState,setBoardState,size})=>{
+    function movepiece(i,j){
+        if(BoardState.selected_box===-1){
+            if(BoardState.a[i][j]!==0){
+                
+                setBoardState({
+                    a:BoardState.a,
+                    selected_box:i*size+j,
+                });
+                
+            }
+        }
+        else{
+            const aa = BoardState.a;
+            const aaa=aa[Math.floor(BoardState.selected_box/size)][BoardState.selected_box%size]
+            aa[Math.floor(BoardState.selected_box/size)][BoardState.selected_box%size]=0;
+            aa[Math.floor(i)][j]=aaa;
+            setBoardState({
+                a:aa,
+                selected_box:-1
+            });
+        }
+ 
+    }
+    function renbox(i,j){
+       // console.log(i+ "h"+j)
+        return (
+            <Box 
+                key={j+i*size}
+                colour={j+i*size}
+                v={BoardState.a[i][j]} 
+                onClick={()=>{movepiece(i,j)}}
+            />
+        );
+    }
+        //const ll=state.a.map((currentValue, index)=>renbox(index));
+    let ll=[]
+    for(var i=0;i<size;i++)
+    {
+        for(var j=0;j<size;j++)
+        {
+            ll.push(renbox(i,j))
+        }
+        ll.push(<span>&#010;</span>)
+    }
+    //console.log(ll)
+    return( 
+        <div>
+            
+            <h1>chess</h1>
+            {ll}
+        </div>
+    );
+        
+    
+}
 
+/*
  class Board extends React.Component{
     size=9
     state={
-        //a:[1,2,3,4,5,6,7,8,9],
+        
         a:[[1,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]],
         selected_box:-1,
     }
@@ -65,7 +122,6 @@ import Box from './Board/box.js'
         );
         
     }
-
-
 }
+*/
 export default Board;

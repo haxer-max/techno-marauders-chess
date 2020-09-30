@@ -6,11 +6,10 @@ h1{
 
 .box{
     cursor: pointer;
-    background-color: burlywood;
     font-size: larger;
     font-weight: 1000;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     text-align: center;
     display: inline-block;
     display: table-cell; 
