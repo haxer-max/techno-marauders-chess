@@ -1,56 +1,57 @@
-import React, {useState} from 'react';
-import './../../../App.css';
-function Box (props){
-    let background=()=>{
-        if(props.colour%2===1) return "burlywood";
+import React, { useState } from "react";
+import "./../../../App.css";
+
+const img_dict = {
+    4: "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt45.svg",
+    2: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt45.svg",
+    1: "https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg",
+    3: "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt45.svg",
+    8: "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt45.svg",
+    6: "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt45.svg",
+    5: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg",
+    7: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt45.svg",
+};
+
+export default function Box(props) {
+    let background = () => {
+        if (props.colour % 2 === 1) return "burlywood";
         else return "rgb(100, 60, 7)";
-    }
-    let border=()=>{
-        console.log(props.w)
-        switch(props.w){
-            case 1: return "inset 0px 8px 0px 0px black";
-            case 2: return "inset 8px 0px 0px 0px black";
-            case 3: return "inset 0px -8px 0px 0px black";
-            case 4: return "inset -8px 0px 0px 0px black";
-            default: return "inset 0px 0px 0px 0px black";
+    };
+    let border = () => {
+        console.log(props.w);
+        switch (props.w) {
+            case 1:
+                return "inset 0px 8px 0px 0px black";
+            case 2:
+                return "inset 8px 0px 0px 0px black";
+            case 3:
+                return "inset 0px -8px 0px 0px black";
+            case 4:
+                return "inset -8px 0px 0px 0px black";
+            default:
+                return "inset 0px 0px 0px 0px black";
         }
-    }
-   // /*
-    if(props.v!==0){
+    };
+
+    if (props.v !== 0) {
         return (
-            <div className='box' style={{backgroundColor:background(), boxShadow:border(), }} onClick={props.onClick}>         
-                {props.v}
-            </div>     
+            <div
+                className="box"
+                style={{ backgroundColor: background(), boxShadow: border() }}
+                onClick={props.onClick}
+            >
+                <img src={img_dict[props.v]} />
+            </div>
         );
-    }
-    else{
+    } else {
         return (
-            <div className='box' style={{backgroundColor:background(), boxShadow:border(),}} onClick={props.onClick}></div>
-        );
-    }/*
-    if(props.v!==0){
-        return (
-            <form onSubmit={(e)=>{
-                e.preventDefault();
-                props.onClick()}}>
-            <button className='box' style={{backgroundColor:background()}} >         
-                {props.v}
-            </button>
-            </form>    
+            <div
+                className="box"
+                style={{ backgroundColor: background(), boxShadow: border() }}
+                onClick={props.onClick}
+            ></div>
         );
     }
-    else{
-        return (
-            <form onSubmit={(e)=>{
-                e.preventDefault();
-                props.onClick()}}>
-            <button className='box' style={{backgroundColor:background()}} >         
+};
 
-            </button>
-            </form> 
-        );
-    }*/
 
-}
-
-export default Box
