@@ -32,48 +32,53 @@ class Game extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0],
             ]
         };
-        this.selected = -1;
-
+        this.selectedboxI=-1;
+        this.selectedboxJ=-1;
+        this.selectedPiece=-1;
         this.socket = io(serverURI);
+
         this.movepiece=(i, j)=> {
             console.log("board state is " + i + " " + j);
-            console.log(this.selected);
-            const d=0;
-            const e=0;
+            //console.log(this.selected);
+            //const d=0;
+            //const e=0;
             //console.log(BoardState)
-            if (this.selected === -1) {
+            if (this.selectedPiece === -1) {
                 if (this.state.BoardState[i][j] !== 0) {
                     console.log(i * size + j);
-                    this.selected = i * size + j;
-                    console.log(this.selected);
-                    if(this.state.BoardState[i][j]===1 || this.state.BoardState===5){
-                        this.selected = 1;
+                    this.selectedboxI=i;
+                    this.selectedboxJ=j;
+
+                    //console.log(this.selected);
+                    if(this.state.BoardState[i][j]===1 || this.state.BoardState[i][j]===5){
+                        this.selectedPiece = 1;
                     }
-                    if(this.state.BoardState[i][j]===4 || this.state.BoardState===8){
-                        this.selected = 4;
+                    if(this.state.BoardState[i][j]===4 || this.state.BoardState[i][j]===8){
+                        this.selectedPiece = 4;
                     }
-                    if(this.state.BoardState[i][j]===2 || this.state.BoardState===6){
-                        this.selected = 2;
+                    if(this.state.BoardState[i][j]===2 || this.state.BoardState[i][j]===6){
+                        this.selectedPiece = 2;
                     }
-                    if(this.state.BoardState[i][j]===3 || this.state.BoardState===7){
-                        this.selected = 3;
+                    if(this.state.BoardState[i][j]===3 || this.state.BoardState[i][j]===7){
+                        this.selectedPiece = 3;
                     }
                     /* var d=i;
                     var e=j; */
-                    console.log(this.selected);
-                    console.log(d);
-                    console.log(e);
+                    console.log(this.selectedPiece);
+                    console.log(this.selectedboxI);
+                    console.log(this.selectedboxJ);
                 }
-            }else if(this.selected===1){
+            }else{
+                if(this.selectedPiece===1){
                 const aa=this.state.BoardState;
                 console.log("working");
-                console.log(d);
+                console.log(this.selectedboxI);
                 const first = [1,2,2,1,-1,-2,-2,-1];
                 const second = [2,1,-1,-2,-2,-1,1,2];
                 for(var k=0;k<8;k++){
-                    if(first[k]+d===i && second[k]+e===j){
-                        this.state.BoardState[i][j]=1;
-                        this.state.BoardState[d][e]=0;
+                    if(first[k]+this.selectedboxI===i && second[k]+this.selectedboxJ===j){
+                        this.state.BoardState[i][j]=this.state.BoardState[this.selectedboxI][this.selectedboxJ];
+                        this.state.BoardState[this.selectedboxI][this.selectedboxJ]=0;
                         console.log(this.state.BoardState);
                         const aa=this.state.BoardState;
                         this.setState({
@@ -83,17 +88,17 @@ class Game extends React.Component {
                         break;
                     }
                 }
-                this.selected=-1;
-            }else if(this.selected===2){
+                this.selectedPiece=-1;
+            }else if(this.selectedPiece===2){
                 const aa=this.state.BoardState;
                 console.log("working");
-                console.log(d);
+                console.log(this.selectedboxJ);
                 const first = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
                 const second = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,];
                 for(var k=0;k<36;k++){
-                    if(first[k]+d===i && second[k]+e===j){
-                        this.state.BoardState[i][j]=1;
-                        this.state.BoardState[d][e]=0;
+                    if(first[k]+this.selectedboxI===i && second[k]+this.selectedboxJ===j){
+                        this.state.BoardState[i][j]=this.state.BoardState[this.selectedboxI][this.selectedboxJ];
+                        this.state.BoardState[this.selectedboxI][this.selectedboxJ]=0;
                         console.log(this.state.BoardState);
                         const aa=this.state.BoardState;
                         this.setState({
@@ -103,17 +108,17 @@ class Game extends React.Component {
                         break;
                     }
                 }
-                this.selected=-1;
-            }else if(this.selected===3){
+                this.selectedPiece=-1;
+            }else if(this.selectedPiece===3){
                 const aa=this.state.BoardState;
                 console.log("working");
-                console.log(d);
+                console.log(this.selectedboxI);
                 const first = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                 const second = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
                 for(var k=0;k<36;k++){
-                    if(first[k]+d===i && second[k]+e===j){
-                        this.state.BoardState[i][j]=1;
-                        this.state.BoardState[d][e]=0;
+                    if(first[k]+this.selectedboxI===i && second[k]+this.selectedboxJ===j){
+                        this.state.BoardState[i][j]=this.state.BoardState[this.selectedboxI][this.selectedboxJ];
+                        this.state.BoardState[this.selectedboxI][this.selectedboxJ]=0;
                         console.log(this.state.BoardState);
                         const aa=this.state.BoardState;
                         this.setState({
@@ -123,17 +128,17 @@ class Game extends React.Component {
                         break;
                     }
                 }
-                this.selected=-1;
-            }else if(this.selected===4){
+                this.selectedPiece=-1;
+            }else if(this.selectedPiece===4){
                 const aa=this.state.BoardState;
                 console.log("working");
-                console.log(d);
+                console.log(this.selectedboxI);
                 const first = [0,1,1,1,0,-1,-1,-1];
                 const second = [1,1,0,1,-1,-1,0,1];
                 for(var k=0;k<8;k++){
-                    if(first[k]+d===i && second[k]+e===j){
-                        this.state.BoardState[i][j]=1;
-                        this.state.BoardState[d][e]=0;
+                    if(first[k]+this.selectedboxI===i && second[k]+this.selectedboxJ===j){
+                        this.state.BoardState[i][j]=this.state.BoardState[this.selectedboxI][this.selectedboxJ];
+                        this.state.BoardState[this.selectedboxI][this.selectedboxJ]=0;
                         console.log(this.state.BoardState);
                         const aa=this.state.BoardState;
                         this.setState({
@@ -143,12 +148,14 @@ class Game extends React.Component {
                         break;
                     }
                 }
-                this.selected=-1;
+                this.selectedPiece=-1;
             }
+        }
             /*  else {
                 const aa = this.state.BoardState;
                 console.log(aa);
                 const aaa =aa[Math.floor(this.selected / size)][this.selected % size];
+                this.state.BoardState[Math.floor(this.selected / size)][this.selected % size]
                 aa[Math.floor(this.selected / size)][this.selected % size] = 0;
                 aa[Math.floor(i)][j] = aaa;
                 this.setState({
