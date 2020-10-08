@@ -38,14 +38,114 @@ class Game extends React.Component {
         this.movepiece=(i, j)=> {
             console.log("board state is " + i + " " + j);
             console.log(this.selected);
+            const d=0;
+            const e=0;
             //console.log(BoardState)
             if (this.selected === -1) {
                 if (this.state.BoardState[i][j] !== 0) {
                     console.log(i * size + j);
                     this.selected = i * size + j;
                     console.log(this.selected);
+                    if(this.state.BoardState[i][j]===1 || this.state.BoardState===5){
+                        this.selected = 1;
+                    }
+                    if(this.state.BoardState[i][j]===4 || this.state.BoardState===8){
+                        this.selected = 4;
+                    }
+                    if(this.state.BoardState[i][j]===2 || this.state.BoardState===6){
+                        this.selected = 2;
+                    }
+                    if(this.state.BoardState[i][j]===3 || this.state.BoardState===7){
+                        this.selected = 3;
+                    }
+                    /* var d=i;
+                    var e=j; */
+                    console.log(this.selected);
+                    console.log(d);
+                    console.log(e);
                 }
-            } else {
+            }else if(this.selected===1){
+                const aa=this.state.BoardState;
+                console.log("working");
+                console.log(d);
+                const first = [1,2,2,1,-1,-2,-2,-1];
+                const second = [2,1,-1,-2,-2,-1,1,2];
+                for(var k=0;k<8;k++){
+                    if(first[k]+d===i && second[k]+e===j){
+                        this.state.BoardState[i][j]=1;
+                        this.state.BoardState[d][e]=0;
+                        console.log(this.state.BoardState);
+                        const aa=this.state.BoardState;
+                        this.setState({
+                            BoardState: aa,
+                        });
+                        
+                        break;
+                    }
+                }
+                this.selected=-1;
+            }else if(this.selected===2){
+                const aa=this.state.BoardState;
+                console.log("working");
+                console.log(d);
+                const first = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
+                const second = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,];
+                for(var k=0;k<36;k++){
+                    if(first[k]+d===i && second[k]+e===j){
+                        this.state.BoardState[i][j]=1;
+                        this.state.BoardState[d][e]=0;
+                        console.log(this.state.BoardState);
+                        const aa=this.state.BoardState;
+                        this.setState({
+                            BoardState: aa,
+                        });
+                        
+                        break;
+                    }
+                }
+                this.selected=-1;
+            }else if(this.selected===3){
+                const aa=this.state.BoardState;
+                console.log("working");
+                console.log(d);
+                const first = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                const second = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
+                for(var k=0;k<36;k++){
+                    if(first[k]+d===i && second[k]+e===j){
+                        this.state.BoardState[i][j]=1;
+                        this.state.BoardState[d][e]=0;
+                        console.log(this.state.BoardState);
+                        const aa=this.state.BoardState;
+                        this.setState({
+                            BoardState: aa,
+                        });
+                        
+                        break;
+                    }
+                }
+                this.selected=-1;
+            }else if(this.selected===4){
+                const aa=this.state.BoardState;
+                console.log("working");
+                console.log(d);
+                const first = [0,1,1,1,0,-1,-1,-1];
+                const second = [1,1,0,1,-1,-1,0,1];
+                for(var k=0;k<8;k++){
+                    if(first[k]+d===i && second[k]+e===j){
+                        this.state.BoardState[i][j]=1;
+                        this.state.BoardState[d][e]=0;
+                        console.log(this.state.BoardState);
+                        const aa=this.state.BoardState;
+                        this.setState({
+                            BoardState: aa,
+                        });
+                        
+                        break;
+                    }
+                }
+                this.selected=-1;
+            }
+            /*  else {
                 const aa = this.state.BoardState;
                 console.log(aa);
                 const aaa =aa[Math.floor(this.selected / size)][this.selected % size];
@@ -57,7 +157,7 @@ class Game extends React.Component {
     
                 this.selected = -1;
                 console.log(this.selected);
-            }
+            } */
         };
     }
 
