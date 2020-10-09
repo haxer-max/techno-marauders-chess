@@ -44,10 +44,14 @@ class Game extends React.Component {
                 if (this.state.BoardState[i][j] !== 0) {
                     this.selectedboxI=i;
                     this.selectedboxJ=j;
-                    if(this.state.BoardState[i][j]===1 || this.state.BoardState[i][j]===5) this.selectedPiece = 1;
-                    else if(this.state.BoardState[i][j]===4 || this.state.BoardState[i][j]===8) this.selectedPiece = 4;
-                    else if(this.state.BoardState[i][j]===2 || this.state.BoardState[i][j]===6) this.selectedPiece = 2;
-                    else if(this.state.BoardState[i][j]===3 || this.state.BoardState[i][j]===7) this.selectedPiece = 3;
+                    if(this.state.BoardState[i][j]===1) this.selectedPiece = 1;
+                    else if(this.state.BoardState[i][j]===4) this.selectedPiece = 4;
+                    else if(this.state.BoardState[i][j]===2) this.selectedPiece = 2;
+                    else if(this.state.BoardState[i][j]===3) this.selectedPiece = 3;
+                    else if(this.state.BoardState[i][j]===5) this.selectedPiece = 5;
+                    else if(this.state.BoardState[i][j]===8) this.selectedPiece = 8;
+                    else if(this.state.BoardState[i][j]===6) this.selectedPiece = 6;
+                    else if(this.state.BoardState[i][j]===7) this.selectedPiece = 7;
                 }
             }else{
                 let boardtemp= this.state.BoardState.map(function(arr) {
