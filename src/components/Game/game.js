@@ -34,7 +34,8 @@ class Game extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            ]
+            ],
+            timeLeft:60*20,
         };
         this.selectedboxI=-1;
         this.selectedboxJ=-1;
@@ -73,6 +74,15 @@ class Game extends React.Component {
         this.socket.on("move", ({ i, j }) => {
             this.movepiece(i, j);
         });
+        this.socket.on('disconnect', function() {
+            console.log("bye bye")
+        });
+        this.socket.on('time_left',(data)=>{
+            this.setState({
+                timeLeft:data
+            })
+        })
+
     }
     emmitmoved(i, j) {
         this.socket.emit("moved", { i, j });
@@ -102,7 +112,6 @@ class Game extends React.Component {
         let ll = [];
         for (var i = 0; i < sizey; i++) {
             for (var j = 0; j < sizex; j++) {
-                //console.log('a')
                 ll.push(this.renbox(i, j));
             }
             ll.push(<span key={-i - 1}>&#010;</span>);
@@ -125,7 +134,15 @@ class Game extends React.Component {
                         <button className="rotatebutton" > rotate </button>
                         <button className="rotatebutton" > rotate </button>
                     </div>
-                    <button>rotate</button><button>rotate</button><button>rotate</button>
+                </div>
+                <div>
+                    {this.state.timeLeft}
+                    <button onClick={()=>{
+                        this.socket.emit('start_timer',1);    
+                    }}>start</button>
+                    <button onClick={()=>{
+                        this.socket.emit('stop_timer',1);    
+                    }}>stop</button>
                 </div>
             </div>
         );
