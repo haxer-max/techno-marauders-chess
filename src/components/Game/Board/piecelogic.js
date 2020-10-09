@@ -51,8 +51,8 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
         const aa=boardtemp;
         console.log("working");
         console.log(selectedboxI);
-        const first = [0,1,1,1,0,-1,-1,-1];
-        const second = [1,1,0,1,-1,-1,0,1];
+        const first = [-1,0,1,1,1,0,-1,-1];
+        const second = [1,1,1,0,-1,-1,-1,0];
         for(var k=0;k<8;k++){
             if(first[k]+selectedboxI===i && second[k]+selectedboxJ===j){
                 boardtemp[i][j]=boardtemp[selectedboxI][selectedboxJ];
@@ -116,8 +116,8 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
         const aa=boardtemp;
         console.log("working");
         console.log(selectedboxI);
-        const first = [0,1,1,1,0,-1,-1,-1];
-        const second = [1,1,0,1,-1,-1,0,1];
+        const first = [-1,0,1,1,1,0,-1,-1];
+        const second = [1,1,1,0,-1,-1,-1,0];
         for(var k=0;k<8;k++){
             if(first[k]+selectedboxI===i && second[k]+selectedboxJ===j){
                 boardtemp[i][j]=boardtemp[selectedboxI][selectedboxJ];
