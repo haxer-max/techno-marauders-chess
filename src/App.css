@@ -16,3 +16,8 @@ h1{
     display: table-cell; 
     vertical-align: middle;
 }
+.rotatebutton{
+
+    margin-left:120px;
+    margin-right:120px;
+}
