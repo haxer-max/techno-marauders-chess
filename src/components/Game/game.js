@@ -63,22 +63,6 @@ class Game extends React.Component {
                     }
                 };
             };
-            /* for(var q=0;q<9;q++){
-                for(var w=0;w<9;w++){
-                    if(newArray2[q][w]===1){
-                        newArray2[q][w]=2;
-                    }
-                    if(newArray2[q][w]===2){
-                        newArray2[q][w]=3;
-                    }
-                    if(newArray2[q][w]===3){
-                        newArray2[q][w]=4;
-                    }
-                    if(newArray2[q][w]===4){
-                        newArray2[q][w]=1;
-                    }
-                }
-            } */
             this.state.BoardState = newArray;
             this.state.walls = newArray2;
         }
