@@ -56,19 +56,31 @@ class Game extends React.Component {
                     else if(this.state.BoardState[i][j]===4) this.selectedPiece = 4;
                     else if(this.state.BoardState[i][j]===2) this.selectedPiece = 2;
                     else if(this.state.BoardState[i][j]===3) this.selectedPiece = 3;
-                    else if(this.state.BoardState[i][j]===5) this.selectedPiece = 5;
+                }
+            }else if (this.selectedPiece === -2 ) {
+                if (this.state.BoardState[i][j] !== 0) {
+                    this.selectedboxI=i;
+                    this.selectedboxJ=j;
+                    if(this.state.BoardState[i][j]===5) this.selectedPiece = 5;
                     else if(this.state.BoardState[i][j]===8) this.selectedPiece = 8;
                     else if(this.state.BoardState[i][j]===6) this.selectedPiece = 6;
                     else if(this.state.BoardState[i][j]===7) this.selectedPiece = 7;
                 }
-            }else{
+            }
+            else{
                 let boardtemp= this.state.BoardState.map(function(arr) {
                     return arr.slice();
                 });
                 this.setState({
                     BoardState:piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)
                 })
-                this.selectedPiece=-1;
+                if(this.selectedPiece===1 || this.selectedPiece===2 || this.selectedPiece===3 || this.selectedPiece===4){
+                    this.selectedPiece=-2;
+                    console.log(this.selectedPiece);
+                }else if(this.selectedPiece===5 || this.selectedPiece===6 || this.selectedPiece===7 || this.selectedPiece===8){
+                    this.selectedPiece=-1;
+                    console.log(this.selectedPiece);
+                }
             }
         };
     }

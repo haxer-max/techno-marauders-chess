@@ -5,7 +5,7 @@ export default function pieceRotation(BoardState){
     };
 
     for(var q=0;q<9;q++){
-        for(var w=0;w<9;w++){
+        for(var w=0;w<10;w++){
             newArray[q][w]=BoardState[w][8-q];
         };
     };
