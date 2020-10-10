@@ -74,13 +74,14 @@ class Game extends React.Component {
                 this.setState({
                     BoardState:piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)
                 })
-                if(this.selectedPiece===1 || this.selectedPiece===2 || this.selectedPiece===3 || this.selectedPiece===4){
+                /* if(this.selectedPiece===1 || this.selectedPiece===2 || this.selectedPiece===3 || this.selectedPiece===4){
                     this.selectedPiece=-2;
                     console.log(this.selectedPiece);
                 }else if(this.selectedPiece===5 || this.selectedPiece===6 || this.selectedPiece===7 || this.selectedPiece===8){
                     this.selectedPiece=-1;
                     console.log(this.selectedPiece);
-                }
+                } */
+                this.selectedPiece=-1;
             }
         };
     }
