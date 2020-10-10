@@ -44,6 +44,7 @@ class Game extends React.Component {
         this.selectedboxI=-1;
         this.selectedboxJ=-1;
         this.selectedPiece=-1;
+        this.counter=0;
         this.socket = io(serverURI);
 
         this.movepiece=(i, j)=> {
@@ -71,9 +72,17 @@ class Game extends React.Component {
                 let boardtemp= this.state.BoardState.map(function(arr) {
                     return arr.slice();
                 });
+                /* if(this.state.BoardState !== piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)){
+                    this.counter +=1;
+                    console.log("Counter is"+ this.counter);
+                } */
+                var oldArray = this.state.BoardState;
+                console.log(oldArray);
                 this.setState({
                     BoardState:piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)
                 })
+                var newArray = this.state.BoardState;
+                console.log(newArray);
                 /* if(this.selectedPiece===1 || this.selectedPiece===2 || this.selectedPiece===3 || this.selectedPiece===4){
                     this.selectedPiece=-2;
                     console.log(this.selectedPiece);
@@ -81,6 +90,19 @@ class Game extends React.Component {
                     this.selectedPiece=-1;
                     console.log(this.selectedPiece);
                 } */
+                var defcounter=this.counter;
+                for (var i=0;i<10;i++){
+                    if(defcounter!==this.counter){
+                        break;
+                    }
+                    for (var j=0;j<15;j++){
+                        if(oldArray[i][j]!==newArray[i][j]){
+                            this.counter +=1;
+                            break;
+                        }
+                    }
+                }
+                console.log("Counter is " +this.counter);
                 this.selectedPiece=-1;
             }
         };
@@ -112,7 +134,7 @@ class Game extends React.Component {
 
 
     renbox(i, j) {
-        console.log(i+" idsj f "+j + " adf "+ this.state.BoardState[i][j])
+        //console.log(i+" idsj f "+j + " adf "+ this.state.BoardState[i][j])
         return (
             <Box
                 key={j + i * sizex}
