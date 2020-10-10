@@ -14,7 +14,6 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
                 break;
             }
         }
-        selectedPiece=-1;
     }else if(selectedPiece===2 && boardtemp[i][j] !==1 && boardtemp[i][j] !==3 && boardtemp[i][j] !==4){
         const aa=boardtemp;
         console.log("working");
@@ -30,7 +29,6 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
                 break;
             }
         }
-        selectedPiece=-1;
     }else if(selectedPiece===3 && boardtemp[i][j] !==2 && boardtemp[i][j] !==1 && boardtemp[i][j] !==4){
         const aa=boardtemp;
         console.log("working");
@@ -46,7 +44,6 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
                 break;
             }
         }
-        selectedPiece=-1;
     }else if(selectedPiece===4 && boardtemp[i][j] !==2 && boardtemp[i][j] !==3 && boardtemp[i][j] !==1){
         const aa=boardtemp;
         console.log("working");
@@ -79,7 +76,6 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
                 break;
             }
         }
-        selectedPiece=-1;
     }else if(selectedPiece===6 && boardtemp[i][j] !==5 && boardtemp[i][j] !==7 && boardtemp[i][j] !==8){
         const aa=boardtemp;
         console.log("working");
@@ -95,7 +91,6 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
                 break;
             }
         }
-        selectedPiece=-1;
     }else if(selectedPiece===7 && boardtemp[i][j] !==5 && boardtemp[i][j] !==6 && boardtemp[i][j] !==8){
         const aa=boardtemp;
         console.log("working");
@@ -111,7 +106,6 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
                 break;
             }
         }
-        selectedPiece=-1;
     }else if(selectedPiece===8 && boardtemp[i][j] !==5 && boardtemp[i][j] !==6 && boardtemp[i][j] !==7){
         const aa=boardtemp;
         console.log("working");

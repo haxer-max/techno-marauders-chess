@@ -3,6 +3,8 @@ import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
 import piecelogic from './Board/piecelogic';
+import pieceRotaion from './Board/PieceRotation';
+import wallRotation from './Board/wallRotation';
 //import { render } from "@testing-library/react";
 const serverURI = "http://localhost:4000";
 const sizex = 15;
@@ -37,39 +39,8 @@ class Game extends React.Component {
             ],
             timeLeft:60*20,
         };
-        /*const rot=1;
-        if(rot !==0){
-            var newArray = [];
-            var newArray2 = [];
-            for(var q=0;q<9;q++){
-                newArray.push([]);
-                newArray2.push([]);
-            };
 
-            for(var q=0;q<9;q++){
-                for(var w=0;w<9;w++){
-                    //newArray[w].push(this.state.BoardState[w][8-q]);
-                    //newArray2[w].push(this.state.walls[w][8-q]); 
-                    newArray[q][w]=this.state.BoardState[w][8-q];
-                    newArray2[q][w]=this.state.walls[w][8-q];
-                    console.log(newArray2);
-                    if(newArray2[q][w]===1){
-                        newArray2[q][w]=2;
-                    }
-                    else if(newArray2[q][w]===2){
-                        newArray2[q][w]=3;
-                    }
-                    else if(newArray2[q][w]===3){
-                        newArray2[q][w]=4;
-                    }
-                    else if(newArray2[q][w]===4){
-                        newArray2[q][w]=1;
-                    }
-                };
-            };
-            this.state.BoardState = newArray;
-            this.state.walls = newArray2;
-        }*/
+
         this.selectedboxI=-1;
         this.selectedboxJ=-1;
         this.selectedPiece=-1;
@@ -85,19 +56,31 @@ class Game extends React.Component {
                     else if(this.state.BoardState[i][j]===4) this.selectedPiece = 4;
                     else if(this.state.BoardState[i][j]===2) this.selectedPiece = 2;
                     else if(this.state.BoardState[i][j]===3) this.selectedPiece = 3;
-                    else if(this.state.BoardState[i][j]===5) this.selectedPiece = 5;
+                }
+            }else if (this.selectedPiece === -2 ) {
+                if (this.state.BoardState[i][j] !== 0) {
+                    this.selectedboxI=i;
+                    this.selectedboxJ=j;
+                    if(this.state.BoardState[i][j]===5) this.selectedPiece = 5;
                     else if(this.state.BoardState[i][j]===8) this.selectedPiece = 8;
                     else if(this.state.BoardState[i][j]===6) this.selectedPiece = 6;
                     else if(this.state.BoardState[i][j]===7) this.selectedPiece = 7;
                 }
-            }else{
+            }
+            else{
                 let boardtemp= this.state.BoardState.map(function(arr) {
                     return arr.slice();
                 });
                 this.setState({
                     BoardState:piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)
                 })
-                this.selectedPiece=-1;
+                if(this.selectedPiece===1 || this.selectedPiece===2 || this.selectedPiece===3 || this.selectedPiece===4){
+                    this.selectedPiece=-2;
+                    console.log(this.selectedPiece);
+                }else if(this.selectedPiece===5 || this.selectedPiece===6 || this.selectedPiece===7 || this.selectedPiece===8){
+                    this.selectedPiece=-1;
+                    console.log(this.selectedPiece);
+                }
             }
         };
     }
