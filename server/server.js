@@ -12,13 +12,12 @@ app.use(cors({origin: 'http://localhost:3000'}));
 
 io.on('connection', socket => {
     console.log(`${ socket.id } connected`);
+    
     socket.on('moved', (data) => {
-        console.log(data)
         io.to(socketIds[socket.id]).emit('move',data)
     });
     
-    socket.on('join', (data)=>{
-        
+    socket.on('join', (data)=>{    
         if(rooms[data]===undefined || rooms[data].limit<2){
             console.log(rooms[data])
             if(rooms[data]=== undefined){
@@ -53,7 +52,6 @@ io.on('connection', socket => {
     });
 
     socket.on('start_timer',(data)=>{
-        
         intervals[socketIds[socket.id]]=setInterval(()=>{
             io.to(socketIds[socket.id]).emit('time_left',--time[socketIds[socket.id]])
             console.log(socketIds[socket.id])
@@ -65,7 +63,6 @@ io.on('connection', socket => {
     socket.on('stop_timer',(data)=>{
         clearInterval(intervals[socketIds[socket.id]]);
     })
-
 
     socket.on('disconnect', () => {
         

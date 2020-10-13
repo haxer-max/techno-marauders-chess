@@ -77,10 +77,10 @@ class Game extends React.Component {
                 } */
                 var oldArray = this.state.BoardState;
                 console.log(oldArray);
-                this.setState({
-                    BoardState:piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)
-                })
-                var newArray = this.state.BoardState;
+                //this.setState({
+                //    BoardState:piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j)
+                //})
+                var newArray = piecelogic(boardtemp,this.selectedPiece,this.selectedboxI,this.selectedboxJ,i,j);
                 console.log(newArray);
                 /* if(this.selectedPiece===1 || this.selectedPiece===2 || this.selectedPiece===3 || this.selectedPiece===4){
                     this.selectedPiece=-2;
@@ -89,17 +89,20 @@ class Game extends React.Component {
                     this.selectedPiece=-1;
                     console.log(this.selectedPiece);
                 } */
-                var defcounter=this.counter;
-                for (var i=0;i<10;i++){
+                const defcounter=this.counter;
+                for (let i=0;i<10;i++){
                     if(defcounter!==this.counter){
                         break;
                     }
-                    for (var j=0;j<15;j++){
+                    for (let j=0;j<15;j++){
                         if(oldArray[i][j]!==newArray[i][j]){
                             this.counter +=1;
                             break;
                         }
                     }
+                }
+                if(defcounter!=this.counter){
+                    this.socket.emit("moved", newArray);
                 }
                 console.log("Counter is " +this.counter);
                 this.selectedPiece=-1;
@@ -109,8 +112,11 @@ class Game extends React.Component {
 
     componentDidMount() {
         this.join(this.props.location.state.roomid);
-        this.socket.on("move", ({ i, j }) => {
-            this.movepiece(i, j);
+        this.socket.on("move", (newArray) => {
+            //this.movepiece(i, j);
+            this.setState({
+                BoardState:newArray,
+            })
         });
         this.socket.on("roomid",({roomid,isWhite})=>{
             this.isWhite=isWhite;
@@ -144,7 +150,7 @@ class Game extends React.Component {
                 v={this.state.BoardState[i][j]}
                 w={this.state.walls[i][j]}
                 onClick={() => {
-                    this.emmitmoved(i, j);
+                    this.movepiece(i, j);
                 }}
             />
         );
