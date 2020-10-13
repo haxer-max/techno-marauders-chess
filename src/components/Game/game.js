@@ -45,7 +45,7 @@ class Game extends React.Component {
         this.selectedboxJ=-1;
         this.selectedPiece=-1;
         this.counter=0;
-        this.isWhite=0;
+        //this.isWhite=undefined;
         this.socket = io(serverURI);
 
         this.movepiece=(i, j)=> {
@@ -111,6 +111,9 @@ class Game extends React.Component {
         this.join(this.props.location.state.roomid);
         this.socket.on("move", ({ i, j }) => {
             this.movepiece(i, j);
+        });
+        this.socket.on("roomid",({roomid,isWhite})=>{
+            this.isWhite=isWhite;
         });
         this.socket.on('disconnect', function() {
             console.log("bye bye")

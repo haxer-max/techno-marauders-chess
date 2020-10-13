@@ -2,8 +2,10 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server)
 const cors = require('cors');
+
 let ind=1;
-let rooms={};
+let socketIds={};
+let rooms={}
 let time={};
 let intervals={}
 app.use(cors({origin: 'http://localhost:3000'}));
@@ -12,35 +14,56 @@ io.on('connection', socket => {
     console.log(`${ socket.id } connected`);
     socket.on('moved', (data) => {
         console.log(data)
-        io.to(rooms[socket.id]).emit('move',data)
+        io.to(socketIds[socket.id]).emit('move',data)
     });
     
     socket.on('join', (data)=>{
-        console.log(data)
-        console.log(time);
-        rooms[socket.id]=data;
-        if(time[rooms[socket.id]]===undefined)
-        {
-            time[rooms[socket.id]]=20*60;
+        
+        if(rooms[data]===undefined || rooms[data].limit<2){
+            console.log(rooms[data])
+            if(rooms[data]=== undefined){
+                rooms[data]={};
+                rooms[data].white=socket.id;
+                rooms[data].limit=1;
+                socket.emit('roomid',{roomid:data,isWhite:1})
+                console.log("yay");
+            }else{
+                if(rooms[data].white===undefined){
+                    rooms[data].white=socket.id;
+                    rooms[data].limit+=1;
+                    socket.emit('roomid',{roomid:data,isWhite:1})
+                    console.log("y0");
+                }else{
+                    rooms[data].black=socket.id;
+                    rooms[data].limit+=1;
+                    socket.emit('roomid',{roomid:data,isWhite:0})
+                    console.log("hmm")
+                }
+            }
+            socketIds[socket.id]=data;
+            if(time[socketIds[socket.id]]===undefined)
+            {
+                time[socketIds[socket.id]]=20*60;
+            }
+            socket.join(data);
+            
+            console.log(rooms);
+            console.log(socketIds);
         }
-        console.log(rooms);
-        console.log("msg")
-        socket.join(data);
-        socket.emit('roomid',data)
     });
 
     socket.on('start_timer',(data)=>{
         
-        intervals[rooms[socket.id]]=setInterval(()=>{
-            io.to(rooms[socket.id]).emit('time_left',--time[rooms[socket.id]])
-            console.log(rooms[socket.id])
+        intervals[socketIds[socket.id]]=setInterval(()=>{
+            io.to(socketIds[socket.id]).emit('time_left',--time[socketIds[socket.id]])
+            console.log(socketIds[socket.id])
             console.log(time);
-            console.log(time[rooms[socket.id]])
+            console.log(time[socketIds[socket.id]])
             
         },1000);
     });
     socket.on('stop_timer',(data)=>{
-        clearInterval(intervals[rooms[socket.id]]);
+        clearInterval(intervals[socketIds[socket.id]]);
     })
 
 
@@ -55,8 +78,8 @@ io.on('connection', socket => {
 
 /*
     socket.on('create', (data)=>{
-        rooms[socket.id]=ind.toString();
-        console.log(rooms);
+        socketIds[socket.id]=ind.toString();
+        console.log(socketIds);
         console.log("la")
         console.log(ind.toString())
         socket.join(ind.toString());
