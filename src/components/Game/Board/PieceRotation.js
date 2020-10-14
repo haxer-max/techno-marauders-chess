@@ -1,4 +1,4 @@
-export default function pieceRotaion(boardtemp,i,j){
+export default function pieceRotation(boardtemp,i,j){
     var newBoardArray=boardtemp;
     console.log(newBoardArray);
     for(var q=i;q<i+5;q++){
