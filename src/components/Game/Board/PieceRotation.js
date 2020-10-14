@@ -1,12 +1,9 @@
-export default function pieceRotation(boardtemp,i,j){
-    var newBoardArray = [];
-    for(var q=0;q<15;q++){
-        newBoardArray.push([]);
-    };
-
-    for(var q=j+4;q>=j;q--){
-        for(var w=i;w<i+5;w++){
-            newBoardArray[q-4][w]=boardtemp[w][q-4];
+export default function pieceRotaion(boardtemp,i,j){
+    var newBoardArray=boardtemp;
+    console.log(newBoardArray);
+    for(var q=i;q<i+5;q++){
+        for(var w=j;w<j+5;w++){
+            newBoardArray[q][w]=boardtemp[w][q];
         };
     };
     console.log("hello");

@@ -3,9 +3,11 @@ import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
 import piecelogic from "./Board/piecelogic";
-import pieceRotaion from "./Board/pieceRotation";
+import pieceRotation from "./Board/pieceRotation";
 import wallRotation from "./Board/wallRotation";
 import wallslogic from "./Board/wallslogic";
+import whitescore from "./Board/whitescore";
+import blackscore from "./Board/blackscore";
 //import { render } from "@testing-library/react";
 
 const serverURI = "http://localhost:4000";
@@ -47,8 +49,11 @@ class Game extends React.Component {
         this.selectedboxJ = -1;
         this.selectedPiece = -1;
         this.counter = 0;
+        var boardvarivable=this.state.BoardState;
         //this.isWhite=undefined;
         this.socket = io(serverURI);
+        this.score1=0;
+        this.score2=0;
 
         this.movepiece = (i, j) => {
             console.log("board state is " + i + " " + j);
@@ -107,18 +112,14 @@ class Game extends React.Component {
                     this.socket.emit("moved", boardtemp);
                 }
                 console.log("Counter is " + this.counter);
+                this.score1 = whitescore(this.state.BoardState);
+                this.score2 = blackscore(this.state.BoardState);
+                console.log("white score is . and black score is "+this.score2);
                 this.selectedPiece = -1;
             }
         };
     }
-    piecechange(i,j) {
-        const boardtemp =  pieceRotaion(boardtemp,i,j);
-        const wallstemp =  wallRotation(wallstemp,i,j);
-        this.setState({
-            BoardState: boardtemp,
-            walls: wallstemp
-        })
-    }
+            
 
     componentDidMount() {
         this.join(this.props.location.state.roomid);
@@ -177,7 +178,15 @@ class Game extends React.Component {
                 <div>
                     <h1>chess</h1>
                     <div style={{ display: "flex" }}>
-                        <button className="rotatebutton" onClick="function piecechange(i=0,j=0)"> rotate </button>
+                        <button className="rotatebutton"  onClick={() => {
+                            console.log(this.state.BoardState);
+                            this.setState({
+                                BoardState: pieceRotation(this.state.BoardState,0,0),
+                                walls: wallRotation(this.state.walls,0,0),
+                            });
+                            console.log(this.state.BoardState);
+                            console.log("raji;");
+                        }}> rotate </button>
                         <button className="rotatebutton" onClick="function piecechange(i=5,j=0)"> rotate </button>
                         <button className="rotatebutton" onClick="function piecechange(i=10,j=0)"> rotate </button>
                     </div>

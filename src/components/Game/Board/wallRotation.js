@@ -6,7 +6,7 @@ export default function wallRotation(wallstemp,i,j){
 
     for(var q=i;q<i+5;q++){
         for(var w=j;w<j+5;w++){
-            newArray2[q][w]=wallstemp[w][8-q];
+            newArray2[q][w]=wallstemp[w][q];
             if(newArray2[q][w]===1){
                 newArray2[q][w]=2;
             }
