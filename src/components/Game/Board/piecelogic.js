@@ -1,4 +1,4 @@
-export default function wallslogic(boardtemp,selectedPiece,selectedboxI,selectedboxJ,i,j){
+export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selectedboxJ,i,j){
     if(selectedPiece===1 && boardtemp[i][j] !==2 && boardtemp[i][j] !==3 && boardtemp[i][j] !==4){
         const aa=boardtemp;
         console.log("working");
