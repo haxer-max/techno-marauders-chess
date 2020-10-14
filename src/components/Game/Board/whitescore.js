@@ -1,6 +1,6 @@
 export default function whitescore(boardstate){
     var scoreofwhite=0;
-    for (var i=0;i<15;i++){
+    for (var i=0;i<10;i++){
         for (var j=0;j<15;j++){
             if(boardstate[i][j]===1){
                 scoreofwhite+=1;

@@ -1,6 +1,6 @@
 export default function blackscore(boardstate){
     var scoreofblack=0;
-    for (var i=0;i<15;i++){
+    for (var i=0;i<10;i++){
         for (var j=0;j<15;j++){
             if(boardstate[i][j]===5){
                 scoreofblack+=1;
