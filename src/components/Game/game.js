@@ -3,8 +3,9 @@ import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
 import piecelogic from "./Board/piecelogic";
-import pieceRotaion from "./Board/PieceRotation";
+import pieceRotaion from "./Board/pieceRotation";
 import wallRotation from "./Board/wallRotation";
+import wallslogic from "./Board/wallslogic";
 //import { render } from "@testing-library/react";
 
 const serverURI = "http://localhost:4000";
@@ -59,6 +60,23 @@ class Game extends React.Component {
                         if ((this.isWhite === 1 && this.state.BoardState[i][j] < 5) ||
                             (this.isWhite === 0 && this.state.BoardState[i][j] > 4)   
                         ) this.selectedPiece = this.state.BoardState[i][j];
+                        const wallstemp = this.state.walls.map(function(arr){
+                            return arr.slice();
+                        });
+                        console.log("wallslogic")
+                        /* const aa=wallslogic(
+                            wallstemp,
+                            this.selectedPiece,
+                            this.selectedboxI,
+                            this.selectedboxJ,
+                            i,
+                            j,
+                            wallstemp
+                        ); */
+                        /* console.log(aa);
+                        this.setState({
+                            BoardState: aa,
+                        }); */
                     }
                 }
             } else {
@@ -93,6 +111,14 @@ class Game extends React.Component {
             }
         };
     }
+    function piecechange(i,j) {
+        boardtemp = function pieceRotaion(boardtemp,i,j);
+        wallstemp = function wallRotation(wallstemp,i,j);
+        this.setState{
+            BoardState: boardtemp;
+            walls: wallstemp;
+        }
+    });
 
     componentDidMount() {
         this.join(this.props.location.state.roomid);
@@ -151,15 +177,15 @@ class Game extends React.Component {
                 <div>
                     <h1>chess</h1>
                     <div style={{ display: "flex" }}>
-                        <button className="rotatebutton"> rotate </button>
-                        <button className="rotatebutton"> rotate </button>
-                        <button className="rotatebutton"> rotate </button>
+                        <button className="rotatebutton" onClick="function piecechange(i=0,j=0)"> rotate </button>
+                        <button className="rotatebutton" onClick="function piecechange(i=5,j=0)"> rotate </button>
+                        <button className="rotatebutton" onClick="function piecechange(i=10,j=0)"> rotate </button>
                     </div>
                     <div>{ll}</div>
                     <div style={{ display: "flex" }}>
-                        <button className="rotatebutton"> rotate </button>
-                        <button className="rotatebutton"> rotate </button>
-                        <button className="rotatebutton"> rotate </button>
+                        <button className="rotatebutton" onClick="function piecechange(i=0,j=0)"> rotate </button>
+                        <button className="rotatebutton" onClick="function piecechange(i=5,j=5)"> rotate </button>
+                        <button className="rotatebutton" onClick="function piecechange(i=10,j=5)"> rotate </button>
                     </div>
                 </div>
                 <div>

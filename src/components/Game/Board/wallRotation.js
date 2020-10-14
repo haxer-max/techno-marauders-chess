@@ -1,12 +1,12 @@
-export default function wallRotation(walls){
+export default function wallRotation(wallstemp,i,j){
     var newArray2 = [];
-    for(var q=0;q<9;q++){
+    for(var q=0;q<15;q++){
         newArray2.push([]);
     };
 
-    for(var q=0;q<9;q++){
-        for(var w=0;w<9;w++){
-            newArray2[q][w]=walls[w][8-q];
+    for(var q=i;q<i+5;q++){
+        for(var w=j;w<j+5;w++){
+            newArray2[q][w]=wallstemp[w][8-q];
             if(newArray2[q][w]===1){
                 newArray2[q][w]=2;
             }
@@ -21,6 +21,6 @@ export default function wallRotation(walls){
             }
         };
     };
-    walls = newArray2;
-    return walls;
+    wallstemp = newArray2;
+    return wallstemp;
 }
