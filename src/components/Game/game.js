@@ -112,9 +112,9 @@ class Game extends React.Component {
                     this.socket.emit("moved", boardtemp);
                 }
                 console.log("Counter is " + this.counter);
-                /* this.score1 = whitescore(this.state.BoardState);
+                this.score1 = whitescore(this.state.BoardState);
                 this.score2 = blackscore(this.state.BoardState);
-                console.log("white score is . and black score is "+this.score2); */
+                console.log("white score is "+this.score1+". and  black score is "+this.score2);
                 this.selectedPiece = -1;
             }
         };
