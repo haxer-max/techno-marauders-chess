@@ -1,14 +1,15 @@
-export default function pieceRotation(BoardState){
-    var newArray = [];
-    for(var q=0;q<9;q++){
-        newArray.push([]);
+export default function pieceRotation(boardtemp,i,j){
+    var newBoardArray = [];
+    for(var q=0;q<15;q++){
+        newBoardArray.push([]);
     };
 
-    for(var q=0;q<9;q++){
-        for(var w=0;w<10;w++){
-            newArray[q][w]=BoardState[w][8-q];
+    for(var q=j+4;q>=j;q--){
+        for(var w=i;w<i+5;w++){
+            newBoardArray[q-4][w]=boardtemp[w][q-4];
         };
     };
-    BoardState = newArray;
-    return BoardState;
+    console.log("hello");
+    boardtemp = newBoardArray;
+    return boardtemp;
 }

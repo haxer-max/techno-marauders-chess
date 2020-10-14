@@ -1,4 +1,4 @@
-export default function wallslogic(boardtemp,selectedPiece,selectedboxI,selectedboxJ,i,j){
+/* export default function wallslogic(boardtemp,selectedPiece,selectedboxI,selectedboxJ,i,j,wallstemp){
     if(selectedPiece===1 && boardtemp[i][j] !==2 && boardtemp[i][j] !==3 && boardtemp[i][j] !==4){
         const aa=boardtemp;
         console.log("working");
@@ -18,17 +18,13 @@ export default function wallslogic(boardtemp,selectedPiece,selectedboxI,selected
         const aa=boardtemp;
         console.log("working");
         console.log(selectedboxJ);
-        const first = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
-        const second = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,];
+        const first = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15];
+        const second = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15];
         for(var k=0;k<36;k++){
-            if(first[k]+selectedboxI===i && second[k]+selectedboxJ===j){
-                boardtemp[i][j]=boardtemp[selectedboxI][selectedboxJ];
-                boardtemp[selectedboxI][selectedboxJ]=0;
-                console.log(boardtemp);
-                const aa=boardtemp;            
-                break;
-            }
+            boardtemp[selectedboxI+k][selectedboxJ+k]=2;
+            console.log(boardtemp);
         }
+        //const aa=boardtemp;
     }else if(selectedPiece===3 && boardtemp[i][j] !==2 && boardtemp[i][j] !==1 && boardtemp[i][j] !==4){
         const aa=boardtemp;
         console.log("working");
@@ -124,4 +120,4 @@ export default function wallslogic(boardtemp,selectedPiece,selectedboxI,selected
         
     }
     return boardtemp;
-}
+} */
