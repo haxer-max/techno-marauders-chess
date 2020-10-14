@@ -111,14 +111,14 @@ class Game extends React.Component {
             }
         };
     }
-    function piecechange(i,j) {
-        boardtemp = function pieceRotaion(boardtemp,i,j);
-        wallstemp = function wallRotation(wallstemp,i,j);
-        this.setState{
-            BoardState: boardtemp;
-            walls: wallstemp;
-        }
-    });
+    piecechange(i,j) {
+        const boardtemp =  pieceRotaion(boardtemp,i,j);
+        const wallstemp =  wallRotation(wallstemp,i,j);
+        this.setState({
+            BoardState: boardtemp,
+            walls: wallstemp
+        })
+    }
 
     componentDidMount() {
         this.join(this.props.location.state.roomid);
