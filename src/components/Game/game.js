@@ -120,7 +120,7 @@ class Game extends React.Component {
         };
     }
     rotation(boardstate,wallstate,i,j) {
-        console.log(this.state.BoardState);
+        //console.log(this.state.BoardState);
         boardState= pieceRotation(boardstate,0,0);
         wallstate= wallRotation(wallstate,0,0);
     }
@@ -184,7 +184,7 @@ class Game extends React.Component {
                     <h1>chess</h1>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton"  onClick={() => {
-                            this.rotation(thi.state.BoardState,this.state.walls,0,0)
+                            this.rotation(this.state.BoardState,this.state.walls,0,0)
                         }}> rotate </button>
                         <button className="rotatebutton" onClick="function piecechange(i=5,j=0)"> rotate </button>
                         <button className="rotatebutton" onClick="function piecechange(i=10,j=0)"> rotate </button>
