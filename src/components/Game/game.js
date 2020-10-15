@@ -121,11 +121,7 @@ class Game extends React.Component {
             }
         };
     }
-    rotation(boardstate,wallstate,i,j) {
-        //console.log(this.state.BoardState);
-        boardState= pieceRotation(boardstate,0,0);
-        wallstate= wallRotation(wallstate,0,0);
-    }
+    
             
 
     componentDidMount() {
@@ -174,7 +170,13 @@ class Game extends React.Component {
         );
     }
 
+   /*  rotation(boardstate,wallstate,i,j) {
+        //console.log(this.state.BoardState);
+        boardState= pieceRotation(boardstate,0,0);
+        wallstate= wallRotation(wallstate,0,0);
+    } */
     render() {
+         
         let ll = [];
         for (var i = 0; i < sizey; i++) {
             for (var j = 0; j < sizex; j++) {
@@ -189,16 +191,40 @@ class Game extends React.Component {
                 <div style={{ float:"left"}}>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton"  onClick={() => {
-                            this.rotation(this.state.BoardState,this.state.walls,0,0)
+                            const newtempboard = this.state.BoardState;
+                            console.log(newtempboard);
+                            console.log(this.state.walls);
+                            /* var newtempboard2 = pieceRotation(newtempboard,0,0);
+                            console.log(newtempboard2); */
                         }}> rotate </button>
-                        <button className="rotatebutton" onClick="function piecechange(i=5,j=0)"> rotate </button>
-                        <button className="rotatebutton" onClick="function piecechange(i=10,j=0)"> rotate </button>
+                        <button className="rotatebutton"onClick={() => {
+                            console.log(this.state.BoardState);
+                            console.log(this.state.walls);
+                            //this.rotation(this.state.BoardState,this.state.walls,5,0)
+                        }}> rotate </button>
+                        <button className="rotatebutton"onClick={() => {
+                            console.log(this.state.BoardState);
+                            console.log(this.state.walls);
+                            //this.rotation(this.state.BoardState,this.state.walls,10,0)
+                        }}> rotate </button>
                     </div>
                     <div>{ll}</div>
                     <div style={{ display: "flex" }}>
-                        <button className="rotatebutton" onClick="function piecechange(i=0,j=0)"> rotate </button>
-                        <button className="rotatebutton" onClick="function piecechange(i=5,j=5)"> rotate </button>
-                        <button className="rotatebutton" onClick="function piecechange(i=10,j=5)"> rotate </button>
+                        <button className="rotatebutton"onClick={() => {
+                            console.log(this.state.BoardState);
+                            console.log(this.state.walls);
+                            //this.rotation(this.state.BoardState,this.state.walls,0,5)
+                        }}> rotate </button>
+                        <button className="rotatebutton"onClick={() => {
+                            console.log(this.state.BoardState);
+                            console.log(this.state.walls);
+                            //this.rotation(this.state.BoardState,this.state.walls,5,5)
+                        }}> rotate </button>
+                        <button className="rotatebutton"onClick={() => {
+                            console.log(this.state.BoardState);
+                            console.log(this.state.walls);
+                            //this.rotation(this.state.BoardState,this.state.walls,10,5)
+                        }}> rotate </button>
                     </div>
                 </div>
                 <div style={{float:"right"}}>
