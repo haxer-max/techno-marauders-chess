@@ -5,7 +5,8 @@ const temp = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
 ];
-export default function pieceRotation(boardtemp, i, j,c=0) {
+export default function pieceRotation(boardtemp, i, j,c) {
+    console.log(c);
     if(c){
         for (let q = i; q < i + 5; q++) {
             for (let w = j; w < j + 5; w++) {

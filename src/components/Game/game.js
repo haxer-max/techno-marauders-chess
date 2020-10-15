@@ -110,8 +110,8 @@ class Game extends React.Component {
         const wallstemp = this.state.walls.map(function(arr){
             return arr.slice();
         });
-        wallRotation(wallstemp,i,j);
-        pieceRotation(boardtemp,i,j);
+        wallRotation(wallstemp,i,j, this.isWhite);
+        pieceRotation(boardtemp,i,j, this.isWhite);
         this.socket.emit("rotated", {board:boardtemp, wall:wallstemp});
     }   
 
@@ -170,25 +170,25 @@ class Game extends React.Component {
                 <h1>chess</h1>
                 <div style={{ float:"left"}}>
                     <div style={{ display: "flex" }}>
-                        <button className="rotatebutton"  onClick={() => {
+                        <button className="rotatebutton" onClick={() => {
                             this.rotate(0,0);
                         }}> rotate </button>
-                        <button className="rotatebutton"onClick={() => {
+                        <button className="rotatebutton" onClick={() => {
                             this.rotate(0,5);
                         }}> rotate </button>
-                        <button className="rotatebutton"onClick={() => {
+                        <button className="rotatebutton" onClick={() => {
                             this.rotate(0,10)
                         }}> rotate </button>
                     </div>
                     <div>{ll}</div>
                     <div style={{ display: "flex" }}>
-                        <button className="rotatebutton"onClick={() => {
+                        <button className="rotatebutton" onClick={() => {
                             this.rotate(5,0)
                         }}> rotate </button>
-                        <button className="rotatebutton"onClick={() => {
+                        <button className="rotatebutton" onClick={() => {
                             this.rotate(5,5)
                         }}> rotate </button>
-                        <button className="rotatebutton"onClick={() => {
+                        <button className="rotatebutton" onClick={() => {
                             this.rotate(5,10)
                         }}> rotate </button>
                     </div>

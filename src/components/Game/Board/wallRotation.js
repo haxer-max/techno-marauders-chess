@@ -1,4 +1,4 @@
-export default function wallRotation(boardtemp, i, j,c=0) {
+export default function wallRotation(boardtemp, i, j,c) {
     const temp = [
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
