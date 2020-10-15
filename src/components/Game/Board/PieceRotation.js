@@ -6,7 +6,6 @@ export default function pieceRotation(boardtemp,i,j){
             newBoardArray[q][w]=boardtemp[w][q];
         };
     };
-    console.log("hello");
     boardtemp = newBoardArray;
     return boardtemp;
 }

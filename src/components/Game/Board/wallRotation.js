@@ -1,8 +1,5 @@
 export default function wallRotation(wallstemp,i,j){
-    var newArray2 = [];
-    for(var q=0;q<15;q++){
-        newArray2.push([]);
-    };
+    var newArray2 = wallstemp;
 
     for(var q=i;q<i+5;q++){
         for(var w=j;w<j+5;w++){

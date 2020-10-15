@@ -170,11 +170,14 @@ class Game extends React.Component {
         );
     }
 
-   /*  rotation(boardstate,wallstate,i,j) {
-        //console.log(this.state.BoardState);
-        boardState= pieceRotation(boardstate,0,0);
-        wallstate= wallRotation(wallstate,0,0);
-    } */
+    rotationofpieces(newtempboard,i,j){
+        newtempboard = pieceRotation(newtempboard,i,j);
+        console.log(newtempboard);
+    }
+    rotationofwalls(walls1,i,j){
+        walls1 = wallRotation(walls1,i,j);
+        console.log(walls1);
+    }
     render() {
          
         let ll = [];
@@ -194,8 +197,8 @@ class Game extends React.Component {
                             const newtempboard = this.state.BoardState;
                             console.log(newtempboard);
                             console.log(this.state.walls);
-                            /* var newtempboard2 = pieceRotation(newtempboard,0,0);
-                            console.log(newtempboard2); */
+                            this.rotationofpieces(newtempboard,0,0);
+                            this.rotationofwalls(this.state.walls,0,0);
                         }}> rotate </button>
                         <button className="rotatebutton"onClick={() => {
                             console.log(this.state.BoardState);
