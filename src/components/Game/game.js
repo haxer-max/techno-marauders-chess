@@ -3,9 +3,8 @@ import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
 import piecelogic from "./Board/piecelogic";
-import pieceRotation from "./Board/PieceRotation";
+import pieceRotation from "./Board/pieceRotation";
 import wallRotation from "./Board/wallRotation";
-import wallslogic from "./Board/wallslogic";
 import whitescore from "./Board/whitescore";
 import blackscore from "./Board/blackscore";
 //import { render } from "@testing-library/react";
@@ -57,8 +56,7 @@ class Game extends React.Component {
         this.score2=0;
 
         this.movepiece = (i, j) => {
-            if(this.turn==!this.isWhite) return;
-            
+            //if(this.turn==!this.isWhite) return;    
             if (this.selectedPiece === -1) {
                 if (this.state.BoardState[i][j] !== 0) {
                     this.selectedboxI = i;
@@ -67,23 +65,6 @@ class Game extends React.Component {
                         if ((this.isWhite === 1 && this.state.BoardState[i][j] < 5) ||
                             (this.isWhite === 0 && this.state.BoardState[i][j] > 4)   
                         ) this.selectedPiece = this.state.BoardState[i][j];
-                        const wallstemp = this.state.walls.map(function(arr){
-                            return arr.slice();
-                        });
-                        console.log("wallslogic")
-                        /* const aa=wallslogic(
-                            wallstemp,
-                            this.selectedPiece,
-                            this.selectedboxI,
-                            this.selectedboxJ,
-                            i,
-                            j,
-                            wallstemp
-                        ); */
-                        /* console.log(aa);
-                        this.setState({
-                            BoardState: aa,
-                        }); */
                     }
                 }
             } else {
@@ -113,26 +94,31 @@ class Game extends React.Component {
                 if (defcounter != this.counter) {
                     this.socket.emit("moved", boardtemp);
                 }
-                console.log("Counter is " + this.counter);
-                this.score1 = whitescore(this.state.BoardState);
-                this.score2 = blackscore(this.state.BoardState);
-                console.log("white score is "+this.score1+". and  black score is "+this.score2);
+
+                //console.log("Counter is " + this.counter);
+                //this.score1 = whitescore(this.state.BoardState);
+                //this.score2 = blackscore(this.state.BoardState);
+                //console.log("white score is "+this.score1+". and  black score is "+this.score2);
                 this.selectedPiece = -1;
             }
         };
-    }
-    
-            
+    }    
+    rotate(i,j){
+        const boardtemp = this.state.BoardState.map(function (arr) {
+            return arr.slice();
+        });
+        const wallstemp = this.state.walls.map(function(arr){
+            return arr.slice();
+        });
+        wallRotation(wallstemp,i,j);
+        pieceRotation(boardtemp,i,j);
+        this.socket.emit("rotated", {board:boardtemp, wall:wallstemp});
+    }   
 
     componentDidMount() {
         this.join(this.props.location.state.roomid);
         this.socket.on("move", (boardtemp) => {
-            //console.log(boardtemp)
             this.setState(boardtemp);
-            //this.movepiece(i, j);
-            //this.setState({
-            //    BoardState: boardtemp,
-            //});
         });
         this.socket.on("roomid", ({ roomid, isWhite, board }) => {
             this.isWhite = isWhite;
@@ -146,9 +132,6 @@ class Game extends React.Component {
                 timeLeft: data,
             });
         });
-    }
-    emmitmoved(i, j) {
-        this.socket.emit("moved", { i, j });
     }
     join(roomid) {
         console.log("joining");
@@ -170,14 +153,8 @@ class Game extends React.Component {
         );
     }
 
-    rotationofpieces(newtempboard,i,j){
-        newtempboard = pieceRotation(newtempboard,i,j);
-        console.log(newtempboard);
-    }
-    rotationofwalls(walls1,i,j){
-        walls1 = wallRotation(walls1,i,j);
-        console.log(walls1);
-    }
+
+
     render() {
          
         let ll = [];
@@ -194,39 +171,25 @@ class Game extends React.Component {
                 <div style={{ float:"left"}}>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton"  onClick={() => {
-                            const newtempboard = this.state.BoardState;
-                            console.log(newtempboard);
-                            console.log(this.state.walls);
-                            this.rotationofpieces(newtempboard,0,0);
-                            this.rotationofwalls(this.state.walls,0,0);
+                            this.rotate(0,0);
                         }}> rotate </button>
                         <button className="rotatebutton"onClick={() => {
-                            console.log(this.state.BoardState);
-                            console.log(this.state.walls);
-                            //this.rotation(this.state.BoardState,this.state.walls,5,0)
+                            this.rotate(0,5);
                         }}> rotate </button>
                         <button className="rotatebutton"onClick={() => {
-                            console.log(this.state.BoardState);
-                            console.log(this.state.walls);
-                            //this.rotation(this.state.BoardState,this.state.walls,10,0)
+                            this.rotate(0,10)
                         }}> rotate </button>
                     </div>
                     <div>{ll}</div>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton"onClick={() => {
-                            console.log(this.state.BoardState);
-                            console.log(this.state.walls);
-                            //this.rotation(this.state.BoardState,this.state.walls,0,5)
+                            this.rotate(5,0)
                         }}> rotate </button>
                         <button className="rotatebutton"onClick={() => {
-                            console.log(this.state.BoardState);
-                            console.log(this.state.walls);
-                            //this.rotation(this.state.BoardState,this.state.walls,5,5)
+                            this.rotate(5,5)
                         }}> rotate </button>
                         <button className="rotatebutton"onClick={() => {
-                            console.log(this.state.BoardState);
-                            console.log(this.state.walls);
-                            //this.rotation(this.state.BoardState,this.state.walls,10,5)
+                            this.rotate(5,10)
                         }}> rotate </button>
                     </div>
                 </div>

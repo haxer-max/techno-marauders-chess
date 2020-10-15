@@ -35,12 +35,31 @@ const time = {};
 const intervals = {};
 app.use(cors({ origin: "http://localhost:3000" }));
 
+const copyboard=()=>{
+    const newboard={};
+    newboard.BoardState= initboard.BoardState.map(function (arr) {
+        return arr.slice();
+    });
+    newboard.walls= initboard.walls.map(function (arr) {
+        return arr.slice();
+    });
+    return newboard;
+}
 io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
 
     socket.on("moved", (data) => {
         rooms[socketIds[socket.id]].board.BoardState =data;
-        console.log(rooms[socketIds[socket.id]])
+        //console.log(rooms[socketIds[socket.id]])
+        io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
+        if(rooms[socketIds[socket.id]].white===socket.id){
+            console.log("he is racist");
+        }
+    });
+
+    socket.on("rotated", ({board,wall}) => {
+        rooms[socketIds[socket.id]].board.BoardState =board;
+        rooms[socketIds[socket.id]].board.walls =wall;
         io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
         if(rooms[socketIds[socket.id]].white===socket.id){
             console.log("he is racist");
@@ -53,9 +72,10 @@ io.on("connection", (socket) => {
                 rooms[data] = {};
                 rooms[data].white = socket.id;
                 rooms[data].limit = 1;
-                rooms[data].board = initboard;
+                rooms[data].board = copyboard();
                 rooms[data].turn = 1;
-                socket.emit("roomid", { roomid: data, isWhite: 1, board:initboard });
+                console.log(rooms[data]);
+                socket.emit("roomid", { roomid: data, isWhite: 1, board: rooms[data].board });
                 io.to(socket.id).emit("your_turn", 1);
                 console.log("yay");
             } else {

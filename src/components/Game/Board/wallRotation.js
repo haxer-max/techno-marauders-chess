@@ -1,23 +1,32 @@
-export default function wallRotation(wallstemp,i,j){
-    var newArray2 = wallstemp;
+export default function wallRotation(boardtemp, i, j,c=0) {
+    const temp = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+    ];
+    if(c){
+        for (let q = i; q < i + 5; q++) {
+            for (let w = j; w < j + 5; w++) {
+                if(boardtemp[q][w]>0) temp[w-j][4+i-q] = (boardtemp[q][w]+2)%4+1;
+            }
+        }
+        
+    } else{
+        for (let q = i; q < i + 5; q++) {
+            for (let w = j; w < j + 5; w++) {
+                if(boardtemp[q][w]>0) temp[4+j-w][q-i] = (boardtemp[q][w])%4+1;
 
-    for(var q=i;q<i+5;q++){
-        for(var w=j;w<j+5;w++){
-            newArray2[q][w]=wallstemp[w][q];
-            if(newArray2[q][w]===1){
-                newArray2[q][w]=2;
             }
-            else if(newArray2[q][w]===2){
-               newArray2[q][w]=3;
-            }
-            else if(newArray2[q][w]===3){
-                newArray2[q][w]=4;
-            }
-            else if(newArray2[q][w]===4){
-                newArray2[q][w]=1;
-            }
-        };
-    };
-    wallstemp = newArray2;
-    return wallstemp;
+        }
+    }
+    console.log(temp);
+    for (let q = i; q < i + 5; q++) {
+        for (let w = j; w < j + 5; w++) {
+            boardtemp[q][w]=temp[q-i][w-j];
+        }
+    }
+    console.log(boardtemp)
+    return boardtemp;
 }
