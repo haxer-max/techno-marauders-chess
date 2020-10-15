@@ -16,5 +16,5 @@ export default function blackscore(boardstate){
             }
         }
     }
-    return scoreofblack;
+    return scoreofblack-11;
 }
