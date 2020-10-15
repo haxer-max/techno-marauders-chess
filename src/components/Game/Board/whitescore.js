@@ -8,7 +8,7 @@ export default function whitescore(boardstate){
             else if(boardstate[i][j]==2){
                 scoreofwhite+=2;
             }
-            else if(boardstate[i][j]==4){
+            else if(boardstate[i][j]==3){
                 scoreofwhite+=3;
             }
             else if(boardstate[i][j]==4){
@@ -16,5 +16,5 @@ export default function whitescore(boardstate){
             }
         }
     }
-    return scoreofwhite;
+    return scoreofwhite-11;
 }
