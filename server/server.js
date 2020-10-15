@@ -1,91 +1,105 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server)
-const cors = require('cors');
+const app = require("express")();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+const cors = require("cors");
 
-let ind=1;
-let socketIds={};
-let rooms={}
-let time={};
-let intervals={}
-app.use(cors({origin: 'http://localhost:3000'}));
+const initboard = {
+    BoardState: [
+        [1, 0, 2, 0, 3, 0, 1, 0, 4, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [5, 0, 6, 0, 7, 0, 5, 0, 8, 0, 9, 0, 0, 0, 0],
+    ],
+    walls: [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ],
+};
+const socketIds = {};
+const rooms = {};
+const time = {};
+const intervals = {};
+app.use(cors({ origin: "http://localhost:3000" }));
 
-io.on('connection', socket => {
-    console.log(`${ socket.id } connected`);
-    
-    socket.on('moved', (data) => {
-        io.to(socketIds[socket.id]).emit('move',data)
-    });
-    
-    socket.on('join', (data)=>{    
-        if(rooms[data]===undefined || rooms[data].limit<2){
-            console.log(rooms[data])
-            if(rooms[data]=== undefined){
-                rooms[data]={};
-                rooms[data].white=socket.id;
-                rooms[data].limit=1;
-                socket.emit('roomid',{roomid:data,isWhite:1})
-                console.log("yay");
-            }else{
-                if(rooms[data].white===undefined){
-                    rooms[data].white=socket.id;
-                    rooms[data].limit+=1;
-                    socket.emit('roomid',{roomid:data,isWhite:1})
-                    console.log("y0");
-                }else{
-                    rooms[data].black=socket.id;
-                    rooms[data].limit+=1;
-                    socket.emit('roomid',{roomid:data,isWhite:0})
-                    console.log("hmm")
-                }
-            }
-            socketIds[socket.id]=data;
-            if(time[socketIds[socket.id]]===undefined)
-            {
-                time[socketIds[socket.id]]=20*60;
-            }
-            socket.join(data);
-            
-            console.log(rooms);
-            console.log(socketIds);
+io.on("connection", (socket) => {
+    console.log(`${socket.id} connected`);
+
+    socket.on("moved", (data) => {
+        rooms[socketIds[socket.id]].board.BoardState =data;
+        console.log(rooms[socketIds[socket.id]])
+        io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
+        if(rooms[socketIds[socket.id]].white===socket.id){
+            console.log("he is racist");
         }
     });
 
-    socket.on('start_timer',(data)=>{
-        intervals[socketIds[socket.id]]=setInterval(()=>{
-            io.to(socketIds[socket.id]).emit('time_left',--time[socketIds[socket.id]])
-            console.log(socketIds[socket.id])
+    socket.on("join", (data) => {
+        if (rooms[data] === undefined || rooms[data].limit < 2) {
+            if (rooms[data] === undefined) {
+                rooms[data] = {};
+                rooms[data].white = socket.id;
+                rooms[data].limit = 1;
+                rooms[data].board = initboard;
+                rooms[data].turn = 1;
+                socket.emit("roomid", { roomid: data, isWhite: 1, board:initboard });
+                io.to(socket.id).emit("your_turn", 1);
+                console.log("yay");
+            } else {
+                if (rooms[data].white === undefined) {
+                    rooms[data].white = socket.id;
+                    rooms[data].limit += 1;
+                    socket.emit("roomid", { roomid: data, isWhite: 1, board:rooms[data].board });
+                    console.log("y0");
+                } else {
+                    rooms[data].black = socket.id;
+                    rooms[data].limit += 1;
+                    socket.emit("roomid", { roomid: data, isWhite: 0, board:rooms[data].board });
+                    console.log("hmm");
+                }
+            }
+            socketIds[socket.id] = data;
+            if (time[socketIds[socket.id]] === undefined) {
+                time[socketIds[socket.id]] = 20 * 60;
+            }
+            socket.join(data);
+        }
+    });
+
+    socket.on("start_timer", (data) => {
+        intervals[socketIds[socket.id]] = setInterval(() => {
+            io.to(socketIds[socket.id]).emit(
+                "time_left",
+                --time[socketIds[socket.id]]
+            );
+            console.log(socketIds[socket.id]);
             console.log(time);
-            console.log(time[socketIds[socket.id]])
-            
-        },1000);
+            console.log(time[socketIds[socket.id]]);
+        }, 1000);
     });
-    socket.on('stop_timer',(data)=>{
+    socket.on("stop_timer", (data) => {
         clearInterval(intervals[socketIds[socket.id]]);
-    })
-
-    socket.on('disconnect', () => {
-        
-        console.log(`${ socket.id } disconnected`);
     });
- 
 
+    socket.on("disconnect", () => {
+        console.log(`${socket.id} disconnected`);
+    });
 
-
-
-/*
-    socket.on('create', (data)=>{
-        socketIds[socket.id]=ind.toString();
-        console.log(socketIds);
-        console.log("la")
-        console.log(ind.toString())
-        socket.join(ind.toString());
-        socket.emit('roomid',ind.toString())
-        ind++;
-    });*/
 });
 
-
 server.listen(4000, () => {
-  console.log('listening on *:4000');
+    console.log("listening on *:4000");
 });

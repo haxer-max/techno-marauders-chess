@@ -3,7 +3,7 @@ import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
 import piecelogic from "./Board/piecelogic";
-import pieceRotation from "./Board/pieceRotation";
+import pieceRotation from "./Board/PieceRotation";
 import wallRotation from "./Board/wallRotation";
 import wallslogic from "./Board/wallslogic";
 import whitescore from "./Board/whitescore";
@@ -49,6 +49,7 @@ class Game extends React.Component {
         this.selectedboxJ = -1;
         this.selectedPiece = -1;
         this.counter = 0;
+        this.turn=0;
         var boardvarivable=this.state.BoardState;
         //this.isWhite=undefined;
         this.socket = io(serverURI);
@@ -56,7 +57,8 @@ class Game extends React.Component {
         this.score2=0;
 
         this.movepiece = (i, j) => {
-            console.log("board state is " + i + " " + j);
+            if(this.turn==!this.isWhite) return;
+            
             if (this.selectedPiece === -1) {
                 if (this.state.BoardState[i][j] !== 0) {
                     this.selectedboxI = i;
@@ -124,13 +126,16 @@ class Game extends React.Component {
     componentDidMount() {
         this.join(this.props.location.state.roomid);
         this.socket.on("move", (boardtemp) => {
+            //console.log(boardtemp)
+            this.setState(boardtemp);
             //this.movepiece(i, j);
-            this.setState({
-                BoardState: boardtemp,
-            });
+            //this.setState({
+            //    BoardState: boardtemp,
+            //});
         });
-        this.socket.on("roomid", ({ roomid, isWhite }) => {
+        this.socket.on("roomid", ({ roomid, isWhite, board }) => {
             this.isWhite = isWhite;
+            this.setState(board);
         });
         this.socket.on("disconnect", function () {
             console.log("bye bye");
@@ -175,8 +180,8 @@ class Game extends React.Component {
         return (
             <div>
                 <p>{this.props.location.state.roomid}</p>
-                <div>
-                    <h1>chess</h1>
+                <h1>chess</h1>
+                <div style={{ float:"left"}}>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton"  onClick={() => {
                             console.log(this.state.BoardState);
@@ -197,7 +202,7 @@ class Game extends React.Component {
                         <button className="rotatebutton" onClick="function piecechange(i=10,j=5)"> rotate </button>
                     </div>
                 </div>
-                <div>
+                <div style={{float:"right"}}>
                     {this.state.timeLeft}
                     <button
                         onClick={() => {
