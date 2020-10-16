@@ -175,6 +175,12 @@ class Game extends React.Component {
             <div>
                 <p>{this.props.location.state.roomid}</p>
                 <h1>chess</h1>
+                {(()=>{
+                    if(this.isWhite!==undefined){
+                        if(this.isWhite===1) return <h2>You are white</h2>
+                        else return <h2>You are black</h2>
+                    }
+                })()}
                 <div style={{ float:"left"}}>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton" onClick={() => {
