@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
@@ -42,21 +42,23 @@ class Game extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
             timeLeft: 60 * 20,
+            gamestarted:0,
+            turn:-1,
         };
 
         this.selectedboxI = -1;
         this.selectedboxJ = -1;
         this.selectedPiece = -1;
         this.counter = 0;
-        this.turn=0;
-        var boardvarivable=this.state.BoardState;
+        this.turn=-1;
         //this.isWhite=undefined;
         this.socket = io(serverURI);
         this.score1=0;
         this.score2=0;
 
         this.movepiece = (i, j) => {
-            //if(this.turn==!this.isWhite) return;    
+            if(this.state.gamestarted===0) return;
+            if(this.state.turn==!this.isWhite) return;    
             if (this.selectedPiece === -1) {
                 if (this.state.BoardState[i][j] !== 0) {
                     this.selectedboxI = i;
@@ -132,7 +134,12 @@ class Game extends React.Component {
                 timeLeft: data,
             });
         });
+        this.socket.on("start",(data)=>{
+            this.state.gamestarted=data;
+            this.state.turn=1;
+        });
     }
+
     join(roomid) {
         console.log("joining");
         this.socket.emit("join", roomid);
@@ -194,6 +201,7 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <div style={{float:"right"}}>
+                    <button onClick={()=>{this.socket.emit("ready",1)}}>ready</button>
                     {this.state.timeLeft}
                     <button
                         onClick={() => {

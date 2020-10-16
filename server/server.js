@@ -2,7 +2,7 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
-const { Socket } = require("socket.io-client");
+//const { Socket } = require("socket.io-client");
 
 const initboard = {
     BoardState: [
@@ -29,6 +29,7 @@ const initboard = {
         [0, 4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
+    turn:1
 };
 const rooom={
     white:"id",
@@ -36,6 +37,7 @@ const rooom={
     turn:0,
     limit:1,
     board:"initboard",
+    ready:0
 }
 const socketIds = {};
 const rooms = {};
@@ -51,6 +53,7 @@ const copyboard=()=>{
     newboard.walls= initboard.walls.map(function (arr) {
         return arr.slice();
     });
+    newboard.turn=-1;
     return newboard;
 }
 io.on("connection", (socket) => {
@@ -58,6 +61,7 @@ io.on("connection", (socket) => {
 
     socket.on("moved", (data) => {
         rooms[socketIds[socket.id]].board.BoardState =data;
+        rooms[socketIds[socket.id]].board.turn= rooms[socketIds[socket.id]].board.turn?0:1;
         //console.log(rooms[socketIds[socket.id]])
         io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
         if(rooms[socketIds[socket.id]].white===socket.id){
@@ -68,6 +72,7 @@ io.on("connection", (socket) => {
     socket.on("rotated", ({board,wall}) => {
         rooms[socketIds[socket.id]].board.BoardState =board;
         rooms[socketIds[socket.id]].board.walls =wall;
+        rooms[socketIds[socket.id]].board.turn= rooms[socketIds[socket.id]].board.turn?0:1;
         io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
         if(rooms[socketIds[socket.id]].white===socket.id){
             console.log("he is racist");
@@ -81,10 +86,9 @@ io.on("connection", (socket) => {
                 rooms[data].white = socket.id;
                 rooms[data].limit = 1;
                 rooms[data].board = copyboard();
-                rooms[data].turn = 1;
                 console.log(rooms[data]);
                 socket.emit("roomid", { roomid: data, isWhite: 1, board: rooms[data].board });
-                io.to(socket.id).emit("your_turn", 1);
+                //io.to(socket.id).emit("your_turn", 1);
                 console.log("yay");
             } else {
                 if (rooms[data].white === undefined) {
@@ -106,6 +110,16 @@ io.on("connection", (socket) => {
             socket.join(data);
         }
     });
+
+    socket.on("ready",()=>{
+        if(rooms[socketIds[socket.id]].ready=== undefined){
+            rooms[socketIds[socket.id]].ready=1;
+        } else if(rooms[socketIds[socket.id]].ready===1 && rooms[socketIds[socket.id]].limit===2){
+            rooms[socketIds[socket.id]].ready=2;
+            //rooms[socketIds[socket.id]].board.
+            io.to(socketIds[socket.id]).emit("start",1);
+        }
+    })
 
     socket.on("start_timer", (data) => {
         intervals[socketIds[socket.id]] = setInterval(() => {
@@ -129,7 +143,7 @@ io.on("connection", (socket) => {
             rooms[socketIds[socket.id]].white= undefined;
             rooms[socketIds[socket.id]].limit--;
             delete socketIds[socket.id];
-        } else{// if(rooms[socketIds[socket.id]].black ===socket.id){
+        } else if(rooms[socketIds[socket.id]].black ===socket.id){
             console.log("imma rob you");
             rooms[socketIds[socket.id]].black= undefined;
             rooms[socketIds[socket.id]].limit--;

@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
 import Game from "./components/Game/game.js";
-//import Game from "./components/Game/chat.js";
 import Join from "./components/join.js"
 import { BrowserRouter as Router, Route } from "react-router-dom";
 

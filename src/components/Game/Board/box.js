@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./../../../App.css";
 
 const img_dict = {
@@ -16,7 +16,7 @@ export default function Box(props) {
     let background = () => {
         let j=Math.floor(props.colour/15);
         let i= props.colour%15;
-        if((i<5||i>9)&& j<5 || (i>4 && i<10)&&j>4)
+        if(((i<5||i>9)&& j<5) || ((i>4 && i<10)&&j>4))
         {
             if (props.colour % 2 === 1) return "burlywood";
             else return "rgb(131, 85, 29)";
