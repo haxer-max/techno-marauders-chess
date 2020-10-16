@@ -2,6 +2,7 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
+const { Socket } = require("socket.io-client");
 
 const initboard = {
     BoardState: [
@@ -29,6 +30,13 @@ const initboard = {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
 };
+const rooom={
+    white:"id",
+    black:"id",
+    turn:0,
+    limit:1,
+    board:"initboard",
+}
 const socketIds = {};
 const rooms = {};
 const time = {};
@@ -115,9 +123,22 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
+        if(rooms[socketIds[socket.id]]){
+        if(rooms[socketIds[socket.id]].white ===socket.id){
+            console.log("trump");
+            rooms[socketIds[socket.id]].white= undefined;
+            rooms[socketIds[socket.id]].limit--;
+            delete socketIds[socket.id];
+        } else{// if(rooms[socketIds[socket.id]].black ===socket.id){
+            console.log("imma rob you");
+            rooms[socketIds[socket.id]].black= undefined;
+            rooms[socketIds[socket.id]].limit--;
+            delete socketIds[socket.id];
+        }}
+
+
         console.log(`${socket.id} disconnected`);
     });
-
 });
 
 server.listen(4000, () => {
