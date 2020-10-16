@@ -42,6 +42,8 @@ class Game extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             ],
             timeLeft: 60 * 20,
+            whiteTime:60*20,
+            blackTime:60*20,
             gamestarted:0,
             turn:-1,
         };
@@ -81,19 +83,19 @@ class Game extends React.Component {
                     i,
                     j
                 );
-                const defcounter = this.counter;
+                let defcounter = 0;
                 for (let i = 0; i < 10; i++) {
-                    if (defcounter !== this.counter) {
+                    if (defcounter === 1) {
                         break;
                     }
                     for (let j = 0; j < 15; j++) {
                         if (this.state.BoardState[i][j] !== boardtemp[i][j]) {
-                            this.counter += 1;
+                            defcounter=1;
                             break;
                         }
                     }
                 }
-                if (defcounter != this.counter) {
+                if (defcounter) {
                     this.socket.emit("moved", boardtemp);
                 }
 
@@ -122,9 +124,16 @@ class Game extends React.Component {
         this.socket.on("move", (boardtemp) => {
             this.setState(boardtemp);
         });
-        this.socket.on("roomid", ({ roomid, isWhite, board }) => {
+        this.socket.on("roomid", ({ roomid, isWhite, board,timeinterval }) => {
             this.isWhite = isWhite;
             this.setState(board);
+            this.setState({
+                whiteTime:timeinterval.white,
+                blackTime:timeinterval.black,
+            });
+            //this.state.whiteTime=timeinterval.white;
+            //this.state.blackTime=timeinterval.black;
+            
         });
         this.socket.on("disconnect", function () {
             console.log("bye bye");
@@ -132,6 +141,12 @@ class Game extends React.Component {
         this.socket.on("time_left", (data) => {
             this.setState({
                 timeLeft: data,
+            });
+        });
+        this.socket.on("timer", (timeinterval) => {
+            this.setState({
+                whiteTime:timeinterval.white,
+                blackTime:timeinterval.black,
             });
         });
         this.socket.on("start",(data)=>{
@@ -223,9 +238,12 @@ class Game extends React.Component {
                     >
                         stop
                     </button>
+                    <p>white is left with {this.state.whiteTime}</p>
+                    <p>black is left with {this.state.blackTime}</p>
                 </div>
             </div>
         );
     }
 }
+
 export default Game;

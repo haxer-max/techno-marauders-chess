@@ -4,6 +4,7 @@ const io = require("socket.io")(server);
 const cors = require("cors");
 //const { Socket } = require("socket.io-client");
 
+const maxTime=20*60;
 const initboard = {
     BoardState: [
         [1, 0, 2, 0, 3, 0, 1, 0, 4, 0, 0, 0, 0, 0, 0],
@@ -43,6 +44,7 @@ const socketIds = {};
 const rooms = {};
 const time = {};
 const intervals = {};
+const timeintervals={};
 app.use(cors({ origin: "http://localhost:3000" }));
 
 const copyboard=()=>{
@@ -87,25 +89,28 @@ io.on("connection", (socket) => {
                 rooms[data].limit = 1;
                 rooms[data].board = copyboard();
                 console.log(rooms[data]);
-                socket.emit("roomid", { roomid: data, isWhite: 1, board: rooms[data].board });
-                //io.to(socket.id).emit("your_turn", 1);
+                timeintervals[data]={}
+                timeintervals[data].white=maxTime;
+                timeintervals[data].black=maxTime;
+                socket.emit("roomid", { roomid: data, isWhite: 1, board: rooms[data].board, timeinterval:timeintervals[data] });
                 console.log("yay");
             } else {
                 if (rooms[data].white === undefined) {
                     rooms[data].white = socket.id;
                     rooms[data].limit += 1;
-                    socket.emit("roomid", { roomid: data, isWhite: 1, board:rooms[data].board });
+                    if(rooms[data].whiteTime===undefined) rooms[data].whiteTime= maxTime
+                    socket.emit("roomid", { roomid: data, isWhite: 1, board:rooms[data].board, timeinterval:timeintervals[data] });
                     console.log("y0");
                 } else {
                     rooms[data].black = socket.id;
                     rooms[data].limit += 1;
-                    socket.emit("roomid", { roomid: data, isWhite: 0, board:rooms[data].board });
+                    socket.emit("roomid", { roomid: data, isWhite: 0, board:rooms[data].board, timeinterval:timeintervals[data] });
                     console.log("hmm");
                 }
             }
             socketIds[socket.id] = data;
             if (time[socketIds[socket.id]] === undefined) {
-                time[socketIds[socket.id]] = 20 * 60;
+                time[socketIds[socket.id]] = maxTime;
             }
             socket.join(data);
         }
@@ -116,10 +121,19 @@ io.on("connection", (socket) => {
             rooms[socketIds[socket.id]].ready=1;
         } else if(rooms[socketIds[socket.id]].ready===1 && rooms[socketIds[socket.id]].limit===2){
             rooms[socketIds[socket.id]].ready=2;
-            //rooms[socketIds[socket.id]].board.
             io.to(socketIds[socket.id]).emit("start",1);
+            rooms[socketIds[socket.id]].board.turn=1;
+            intervals[socketIds[socket.id]] = setInterval(() => {
+                if(rooms[socketIds[socket.id]].board.turn===1){ --timeintervals[socketIds[socket.id]].white;
+                } else{ --timeintervals[socketIds[socket.id]].black;}
+                io.to(socketIds[socket.id]).emit(
+                    "timer",
+                    timeintervals[socketIds[socket.id]]
+                );
+            }, 1000);
+
         }
-    })
+    });
 
     socket.on("start_timer", (data) => {
         intervals[socketIds[socket.id]] = setInterval(() => {
