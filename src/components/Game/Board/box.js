@@ -16,6 +16,7 @@ export default function Box(props) {
     let background = () => {
         let j=Math.floor(props.colour/15);
         let i= props.colour%15;
+        if(props.isgreen===1) return "rgb(75, 201, 37)"
         if(((i<5||i>9)&& j<5) || ((i>4 && i<10)&&j>4))
         {
             if (props.colour % 2 === 1) return "burlywood";

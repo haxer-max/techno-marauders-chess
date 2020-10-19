@@ -7,19 +7,32 @@ import pieceRotation from "./Board/pieceRotation";
 import wallRotation from "./Board/wallRotation";
 import whitescore from "./Board/whitescore";
 import blackscore from "./Board/blackscore";
-import wallslogicc from "./Board/wallslogicc"
+import greenlogic from "./Board/greenlogic";
+
+//import wallslogicc from "./Board/wallslogicc"
 //import { render } from "@testing-library/react";
 
 const serverURI = "http://localhost:4000";
 const sizex = 15;
 const sizey = 10;
-
+const initgreen= [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
 class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             BoardState: [
-                [1, 0, 2, 0, 3, 0, 1, 0, 4, 0, 0, 0, 0, 0, 0],
+                [1, 0, 2, 0, 3, 0, 1, 0, 4, 0, 2, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,7 +41,7 @@ class Game extends React.Component {
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [5, 0, 6, 0, 7, 0, 5, 0, 8, 0, 9, 0, 0, 0, 0],
+                [5, 0, 6, 0, 7, 0, 5, 0, 8, 0, 6, 0, 0, 0, 0],
             ],
             walls: [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -47,6 +60,18 @@ class Game extends React.Component {
             blackTime:60*20,
             gamestarted:0,
             turn:-1,
+            green: [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
         };
 
         this.selectedboxI = -1;
@@ -69,7 +94,10 @@ class Game extends React.Component {
                     if (this.state.BoardState[i][j] > 0) {
                         if ((this.isWhite === 1 && this.state.BoardState[i][j] < 5) ||
                             (this.isWhite === 0 && this.state.BoardState[i][j] > 4)   
-                        ) this.selectedPiece = this.state.BoardState[i][j];
+                        ){
+                            this.selectedPiece = this.state.BoardState[i][j];
+                            greenlogic(i,j,this.state.BoardState,this.state.walls,this.state.green);
+                        }
                     }
                 }
             }
@@ -107,6 +135,11 @@ class Game extends React.Component {
                 //this.score2 = blackscore(this.state.BoardState);
                 //console.log("white score is "+this.score1+". and  black score is "+this.score2);
                 this.selectedPiece = -1;
+                this.setState({
+                    green:initgreen.map(function (arr) {
+                        return arr.slice();
+                    }),
+                });
             }
 
         };
@@ -175,6 +208,7 @@ class Game extends React.Component {
                 onClick={() => {
                     this.movepiece(i, j);
                 }}
+                isgreen={this.state.green[i][j]}
             />
         );
     }
