@@ -7,6 +7,7 @@ import pieceRotation from "./Board/pieceRotation";
 import wallRotation from "./Board/wallRotation";
 import whitescore from "./Board/whitescore";
 import blackscore from "./Board/blackscore";
+import wallslogicc from "./Board/wallslogicc"
 //import { render } from "@testing-library/react";
 
 const serverURI = "http://localhost:4000";
@@ -71,7 +72,8 @@ class Game extends React.Component {
                         ) this.selectedPiece = this.state.BoardState[i][j];
                     }
                 }
-            } else {
+            }
+            else {
                 const boardtemp = this.state.BoardState.map(function (arr) {
                     return arr.slice();
                 });
@@ -95,6 +97,7 @@ class Game extends React.Component {
                         }
                     }
                 }
+                
                 if (defcounter) {
                     this.socket.emit("moved", boardtemp);
                 }
@@ -105,6 +108,7 @@ class Game extends React.Component {
                 //console.log("white score is "+this.score1+". and  black score is "+this.score2);
                 this.selectedPiece = -1;
             }
+
         };
     }    
     rotate(i,j){
