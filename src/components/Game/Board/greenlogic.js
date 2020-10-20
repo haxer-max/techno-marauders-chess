@@ -2,7 +2,7 @@ export default function greenlogic(i,j,piece,wall,green){
     console.log("greeeeeeeeeeeeen")
     switch(piece[i][j]){
         case 1: wknight(i,j,piece,wall,green); break;
-        //case 2: wbishop(i,j,piece,wall,green); break;
+        case 2: wbishop(i,j,piece,wall,green); break;
         case 3: wrook(i,j,piece,wall,green); break;
         //case 4: wking(i,j,piece,wall,green); break;
         case 5: bknight(i,j,piece,wall,green); break;
@@ -16,6 +16,66 @@ export default function greenlogic(i,j,piece,wall,green){
 // 1     2|a     3__   4 a|
 // a  
 // b
+const wbishop= (i,j,piece,wall,green)=>{
+    for(let ii=1; ii+i<10 && ii+j<15 ;ii++){//\,
+        if((piece[i+ii][j+ii]>0&&piece[i+ii][j+ii]<5) || piece[i+ii-1][j+ii-1]>4 || 
+            (wall[i+ii][j+ii]===1||wall[i+ii-1][j+ii]===3)&& (wall[i+ii][j+ii-1]===1||wall[i+ii-1][j+ii-1]===3) ||
+            (wall[i+ii][j+ii]===1||wall[i+ii-1][j+ii]===3)&& (wall[i+ii][j+ii]===2||wall[i+ii][j+ii-1]===4) ||
+            (wall[i+ii][j+ii-1]===1||wall[i+ii-1][j+ii-1]===3)&& (wall[i+ii-1][j+ii]===2||wall[i+ii-1][j+ii-1]===4) ||
+            (wall[i+ii][j+ii]===2||wall[i+ii][j+ii-1]===4)&& (wall[i+ii-1][j+ii]===2||wall[i+ii-1][j+ii-1]===4) 
+        ){
+            break;
+        }
+        else{
+            green[i+ii][j+ii]=1;
+        }
+    }
+    for(let ii=-1; ii+i>-1 && ii+j>-1 ;ii--){//'\
+        if((piece[i+ii][j+ii]>0&&piece[i+ii][j+ii]<5) || piece[i+ii+1][j+ii+1]>4||
+            (wall[i+ii][j+ii]===3||wall[i+ii+1][j+ii]===1)&& (wall[i+ii][j+ii+1]===3||wall[i+ii+1][j+ii+1]===1) ||
+            (wall[i+ii][j+ii]===3||wall[i+ii+1][j+ii]===1)&& (wall[i+ii][j+ii]===4||wall[i+ii][j+ii+1]===2) ||
+            (wall[i+ii][j+ii+1]===3||wall[i+ii+1][j+ii+1]===1)&& (wall[i+ii+1][j+ii]===4||wall[i+ii+1][j+ii+1]===2) ||
+            (wall[i+ii][j+ii]===4||wall[i+ii][j+ii+1]===2)&& (wall[i+ii+1][j+ii]===4||wall[i+ii+1][j+ii+1]===2)        
+        ){
+            break;
+        }
+        else{
+            green[i+ii][j+ii]=1;
+        }
+    }
+    for(let ii=1; ii+i<10 && ii+j>-1 ;ii++){//,/
+        if((piece[i+ii][j-ii]>0&&piece[i+ii][j-ii]<5) || piece[i+ii-1][j-ii+1]>4||
+            (wall[i+ii][j-ii]===1||wall[i+ii-1][j-ii]===3)&& (wall[i+ii][j-ii+1]===1||wall[i+ii-1][j-ii+1]===3) ||
+            (wall[i+ii][j-ii]===1||wall[i+ii-1][j-ii]===3)&& (wall[i+ii][j-ii]===4||wall[i+ii][j-ii+1]===2) ||
+            (wall[i+ii][j-ii+1]===1||wall[i+ii-1][j-ii+1]===3)&& (wall[i+ii-1][j-ii]===4||wall[i+ii-1][j-ii+1]===2) ||
+            (wall[i+ii][j-ii]===4||wall[i+ii][j-ii+1]===2)&& (wall[i+ii-1][j-ii]===4||wall[i+ii-1][j-ii+1]===2)        
+        ){
+            break;
+        }
+        else{
+            green[i+ii][j-ii]=1;
+        }
+    }
+    for(let ii=-1; ii+i>-1 && ii+j<15 ;ii--){///'
+        if((piece[i+ii][j-ii]>0&&piece[i+ii][j-ii]<5) || piece[i+ii+1][j-ii-1]>4 ||
+            (wall[i+ii][j-ii]===3||wall[i+ii+1][j-ii]===1)&& (wall[i+ii][j-ii-1]===3||wall[i+ii+1][j-ii-1]===1) ||
+            (wall[i+ii][j-ii]===3||wall[i+ii+1][j-ii]===1)&& (wall[i+ii][j-ii]===2||wall[i+ii][j-ii-1]===4) ||
+            (wall[i+ii][j-ii-1]===3||wall[i+ii+1][j-ii-1]===1)&& (wall[i+ii+1][j-ii]===2||wall[i+ii+1][j-ii-1]===4) ||
+            (wall[i+ii][j-ii]===2||wall[i+ii][j-ii-1]===4)&& (wall[i+ii+1][j-ii]===2||wall[i+ii+1][j-ii-1]===4)         
+        ){
+            break;
+        }
+        else{
+            green[i+ii][j-ii]=1;
+        }
+    }
+}
+
+
+
+
+
+
 const wrook= (i,j,piece,wall,green)=>{
     for(let ii=i+1; ii<10;ii++){
         if((piece[ii][j]>0&&piece[ii][j]<5) || piece[ii-1][j]>4 || wall[ii][j]===1 || wall[ii-1][j]===3){
