@@ -85,6 +85,7 @@ class Game extends React.Component {
         this.score2=0;
 
         this.movepiece = (i, j) => {
+            if(this.ended===1) return;
             if(this.state.gamestarted===0) return;
             if(this.state.turn==!this.isWhite) return;    
             if (this.selectedPiece === -1) {
@@ -106,6 +107,9 @@ class Game extends React.Component {
                     return arr.slice();
                 });
                 if(this.state.green[i][j]===1){
+                    if(this.isWhite===1&& boardtemp[i][j]===8 || this.isWhite===0&&boardtemp[i][j]===8 ){
+                        this.socket.emit("win",this.isWhite);
+                    }
                     boardtemp[i][j]=this.selectedPiece;
                     boardtemp[this.selectedboxI][this.selectedboxJ]=0;
                     this.socket.emit("moved", boardtemp);
@@ -140,6 +144,7 @@ class Game extends React.Component {
                 //this.score1 = whitescore(this.state.BoardState);
                 //this.score2 = blackscore(this.state.BoardState);
                 //console.log("white score is "+this.score1+". and  black score is "+this.score2);
+                
                 this.selectedPiece = -1;
                 this.setState({
                     green:initgreen.map(function (arr) {
@@ -178,7 +183,11 @@ class Game extends React.Component {
             //this.state.blackTime=timeinterval.black;
             
         });
+        this.socket.on("connect",()=>{
+            alert("you are connected");
+        })
         this.socket.on("disconnect", function () {
+            alert("you got disconneted, check internet connection and try to reload the page");
             console.log("bye bye");
         });
         this.socket.on("time_left", (data) => {
@@ -196,6 +205,11 @@ class Game extends React.Component {
             this.state.gamestarted=data;
             this.state.turn=1;
         });
+        this.socket.on('end',(data)=>{
+            if(this.isWhite===data) alert("you won, yay");
+            else alert("you lost, sed :/");
+            this.ended=1;
+        })
     }
 
     join(roomid) {

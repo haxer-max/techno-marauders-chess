@@ -2,7 +2,21 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
-//const { Socket } = require("socket.io-client");
+const mongoose = require("mongoose");
+mongoose
+    .connect("mongodb://localhost:27017/technoChess", {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+    })
+    .then(() => console.log("DB Connected!"))
+    .catch((err) => {
+        console.log(`DB Connection Error: ${err.message}`);
+    });
+
+
+const Match = require("./matchs");
+
+
 
 const maxTime=20*60;
 const initboard = {
@@ -38,7 +52,10 @@ const rooom={
     turn:0,
     limit:1,
     board:"initboard",
-    ready:0
+    ready:0,
+    bscore:10,
+    bscore:10,
+
 }
 const socketIds = {};
 const rooms = {};
@@ -81,31 +98,61 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("join", (data) => {
+    socket.on("join", ({data, rollno}) => {
+        
         if (rooms[data] === undefined || rooms[data].limit < 2) {
             if (rooms[data] === undefined) {
-                rooms[data] = {};
-                rooms[data].white = socket.id;
-                rooms[data].limit = 1;
-                rooms[data].board = copyboard();
-                console.log(rooms[data]);
-                timeintervals[data]={}
-                timeintervals[data].white=maxTime;
-                timeintervals[data].black=maxTime;
-                socket.emit("roomid", { roomid: data, isWhite: 1, board: rooms[data].board, timeinterval:timeintervals[data] });
-                console.log("yay");
+                Match.findOne({room:data})
+                    .then((match)=>{
+                        if(match!==undefined) return;
+                        rooms[data] = {};
+                        rooms[data].white = socket.id;
+                        rooms[data].limit = 1;
+                        rooms[data].board = copyboard();
+                        console.log(rooms[data]);
+                        timeintervals[data]={}
+                        timeintervals[data].white=maxTime;
+                        timeintervals[data].black=maxTime;
+                        socket.emit("roomid", { roomid: data, isWhite: 1, board: rooms[data].board, timeinterval:timeintervals[data] });
+                        const match = new Match({
+                            _id: new mongoose.Types.ObjectId(),
+                            userw: rollno,
+                            room: data
+                        });
+                        match.save();
+                        console.log("yay");}
+                );
             } else {
                 if (rooms[data].white === undefined) {
-                    rooms[data].white = socket.id;
-                    rooms[data].limit += 1;
-                    if(rooms[data].whiteTime===undefined) rooms[data].whiteTime= maxTime
-                    socket.emit("roomid", { roomid: data, isWhite: 1, board:rooms[data].board, timeinterval:timeintervals[data] });
-                    console.log("y0");
+                    Match.findOne({room:data})
+                    .then((match)=>{
+                        if(match.winner!==undefined) return;
+                        if(match.userw=== rollno)
+                        {
+                            rooms[data].white = socket.id;
+                            rooms[data].limit += 1;
+                            if(rooms[data].whiteTime===undefined) rooms[data].whiteTime= maxTime
+                            socket.emit("roomid", { roomid: data, isWhite: 1, board:rooms[data].board, timeinterval:timeintervals[data] });
+                            console.log("y0");
+                        }else if(match.userb===rollno){
+                            rooms[data].black = socket.id;
+                            rooms[data].limit += 1;
+                            socket.emit("roomid", { roomid: data, isWhite: 0, board:rooms[data].board, timeinterval:timeintervals[data] });
+                            console.log("hmm");
+                        }
+                    });
                 } else {
-                    rooms[data].black = socket.id;
-                    rooms[data].limit += 1;
-                    socket.emit("roomid", { roomid: data, isWhite: 0, board:rooms[data].board, timeinterval:timeintervals[data] });
-                    console.log("hmm");
+                    Match.findOne({room:data})
+                    .then((match)=>{
+                        if(match.winner!==undefined) return;
+                        rooms[data].black = socket.id;
+                        rooms[data].limit += 1;
+                        socket.emit("roomid", { roomid: data, isWhite: 0, board:rooms[data].board, timeinterval:timeintervals[data] });
+                        console.log("hmm");
+                        match.userb=rollno;
+                        match.save();
+                    });
+
                 }
             }
             socketIds[socket.id] = data;
@@ -148,6 +195,14 @@ io.on("connection", (socket) => {
     });
     socket.on("stop_timer", (data) => {
         clearInterval(intervals[socketIds[socket.id]]);
+    });
+
+    socket.on("win", (data) => {
+        socket.emit("ended", data);
+        Match.find({room:socketIds[socket.id]})
+        .then((match)=>{
+            match.winner=data;
+        });
     });
 
     socket.on("disconnect", () => {
