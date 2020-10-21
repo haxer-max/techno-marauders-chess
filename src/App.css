@@ -84,3 +84,20 @@ h2{
     font-size: large;
     color: blue;
 }
+.scoreboard{
+    border-style: solid;
+    float: right;
+    margin-left: 180px;
+    margin-right: 100px;
+    width: 200px;
+    margin-top: 60px;
+    text-align: center;
+    background-color: yellowgreen;
+}
+.score{
+    font-weight: bold;
+    color: black;
+    border-style: solid;
+    margin: 20px;
+    font-size: large;
+}

@@ -137,8 +137,8 @@ class Game extends React.Component {
                 //}
 
                 //console.log("Counter is " + this.counter);
-                //this.score1 = whitescore(this.state.BoardState);
-                //this.score2 = blackscore(this.state.BoardState);
+                this.score1 = whitescore(this.state.BoardState);
+                this.score2 = blackscore(this.state.BoardState);
                 //console.log("white score is "+this.score1+". and  black score is "+this.score2);
                 this.selectedPiece = -1;
                 this.setState({
@@ -284,6 +284,11 @@ class Game extends React.Component {
                     </button>
                     <p className="timeallocate">White is left with <p className="timeremain">{this.state.whiteTime}</p></p>
                     <p className="timeallocate">Black is left with <p className="timeremain">{this.state.blackTime}</p></p>
+                </div>
+                <div className="scoreboard">
+                    <p className="score">White score is <p className="timeremain">{this.score2}</p></p>
+                    <p className="score">Black score is <p className="timeremain">{this.score1}</p></p>
+
                 </div>
             </div>
         );
