@@ -60,6 +60,7 @@ class Game extends React.Component {
             blackTime:60*20,
             gamestarted:0,
             turn:-1,
+            rot:-1,
             green: [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

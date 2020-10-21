@@ -44,7 +44,8 @@ const initboard = {
         [3, 0, 0, 4, 3, 4, 0, 3, 3, 0, 0, 4, 0, 3, 0],
         [0, 4, 0, 1, 0, 3, 0, 0, 4, 0, 4, 0, 3, 0, 4],
     ],
-    turn:1
+    turn:1,
+    rot:2
 };
 const rooom={
     white:"id",
@@ -56,12 +57,16 @@ const rooom={
     bscore:10,
     bscore:10,
 
+
 }
 const socketIds = {};
 const rooms = {};
 const time = {};
 const intervals = {};
 const timeintervals={};
+
+
+
 app.use(cors({ origin: "http://localhost:3000" }));
 
 const copyboard=()=>{
@@ -81,6 +86,7 @@ io.on("connection", (socket) => {
     socket.on("moved", (data) => {
         rooms[socketIds[socket.id]].board.BoardState =data;
         rooms[socketIds[socket.id]].board.turn= rooms[socketIds[socket.id]].board.turn?0:1;
+        ++rooms[socketIds[socket.id]].board.rot;
         //console.log(rooms[socketIds[socket.id]])
         io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
         if(rooms[socketIds[socket.id]].white===socket.id){
@@ -89,12 +95,15 @@ io.on("connection", (socket) => {
     });
 
     socket.on("rotated", ({board,wall}) => {
-        rooms[socketIds[socket.id]].board.BoardState =board;
-        rooms[socketIds[socket.id]].board.walls =wall;
-        rooms[socketIds[socket.id]].board.turn= rooms[socketIds[socket.id]].board.turn?0:1;
-        io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
-        if(rooms[socketIds[socket.id]].white===socket.id){
-            console.log("he is racist");
+        if(rotate>1){
+            rooms[socketIds[socket.id]].board.BoardState =board;
+            rooms[socketIds[socket.id]].board.walls =wall;
+            rooms[socketIds[socket.id]].board.turn= rooms[socketIds[socket.id]].board.turn?0:1;
+            rooms[socketIds[socket.id]].board.rot= 0;
+            io.to(socketIds[socket.id]).emit("move", rooms[socketIds[socket.id]].board);
+            if(rooms[socketIds[socket.id]].white===socket.id){
+                console.log("he is racist");
+            }
         }
     });
 
@@ -171,8 +180,28 @@ io.on("connection", (socket) => {
             io.to(socketIds[socket.id]).emit("start",1);
             rooms[socketIds[socket.id]].board.turn=1;
             intervals[socketIds[socket.id]] = setInterval(() => {
-                if(rooms[socketIds[socket.id]].board.turn===1){ --timeintervals[socketIds[socket.id]].white;
-                } else{ --timeintervals[socketIds[socket.id]].black;}
+               // if(prevturn!=this.turn){
+                 //   prevmove
+                //}
+                if(rooms[socketIds[socket.id]].board.turn===1){ 
+                    --timeintervals[socketIds[socket.id]].white;
+                    if(timeintervals[socketIds[socket.id]].white<1){
+                        socket.emit("ended", 0);
+                        Match.find({room:socketIds[socket.id]})
+                        .then((match)=>{
+                            match.winner=0;
+                        });
+                    }
+                } else{ 
+                    --timeintervals[socketIds[socket.id]].black;
+                    if(timeintervals[socketIds[socket.id]].black<1){
+                        socket.emit("ended", 1);
+                        Match.find({room:socketIds[socket.id]})
+                        .then((match)=>{
+                            match.winner=1;
+                        });
+                    }
+                }
                 io.to(socketIds[socket.id]).emit(
                     "timer",
                     timeintervals[socketIds[socket.id]]
@@ -184,6 +213,7 @@ io.on("connection", (socket) => {
 
     socket.on("start_timer", (data) => {
         intervals[socketIds[socket.id]] = setInterval(() => {
+            //if()
             io.to(socketIds[socket.id]).emit(
                 "time_left",
                 --time[socketIds[socket.id]]
