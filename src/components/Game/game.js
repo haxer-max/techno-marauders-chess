@@ -32,28 +32,28 @@ class Game extends React.Component {
         super(props);
         this.state = {
             BoardState: [
-                [1, 0, 2, 0, 3, 0, 1, 0, 4, 0, 2, 0, 0, 0, 0],
+                [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [5, 0, 6, 0, 7, 0, 5, 0, 8, 0, 6, 0, 0, 0, 0],
+                [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
             ],
             walls: [
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-                [0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [2, 3, 1, 4, 0, 4, 3, 3, 0, 1, 0, 3, 4, 0, 3],
+                [0, 0, 4, 0, 0, 0, 0, 0, 4, 0, 4, 0, 3, 0, 0],
+                [4, 3, 0, 3, 0, 4, 0, 0, 4, 0, 0, 0, 4, 0, 0],
+                [0, 4, 0, 0, 4, 4, 0, 3, 3, 0, 3, 0, 0, 3, 2],
+                [0, 0, 0, 3, 2, 3, 0, 0, 4, 3, 0, 3, 2, 0, 0],
+                [3, 3, 4, 0, 3, 4, 3, 3, 0, 0, 4, 0, 0, 0, 0],
+                [4, 0, 0, 0, 0, 0, 0, 0, 4, 4, 0, 3, 4, 3, 0],
+                [0, 4, 3, 0, 0, 4, 0, 0, 4, 0, 0, 0, 0, 4, 0],
+                [3, 0, 0, 4, 3, 4, 0, 3, 3, 0, 0, 4, 0, 3, 0],
+                [0, 4, 0, 1, 0, 3, 0, 0, 4, 0, 4, 0, 3, 0, 4],
             ],
             timeLeft: 60 * 20,
             whiteTime:60*20,
@@ -245,7 +245,7 @@ class Game extends React.Component {
             ll.push(<span key={-i - 1}>&#010;</span>);
         }
         return (
-            <div>
+            <div className="main">
                 <p>{this.props.location.state.roomid}</p>
                 <h1>chess</h1>
                 {(()=>{
@@ -254,7 +254,7 @@ class Game extends React.Component {
                         else return <h2>You are black</h2>
                     }
                 })()}
-                <div style={{ float:"left"}}>
+                <div className="boardclass">
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(0,0);
@@ -279,25 +279,25 @@ class Game extends React.Component {
                         }}> rotate </button>
                     </div>
                 </div>
-                <div style={{float:"right"}}>
-                    <button onClick={()=>{this.socket.emit("ready",1)}}>ready</button>
-                    {this.state.timeLeft}
-                    <button
+                <div className="timer">
+                    <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>
+                    {/* {this.state.timeLeft} */}
+                    <button className="start"
                         onClick={() => {
                             this.socket.emit("start_timer", 1);
                         }}
                     >
-                        start
+                        Start
                     </button>
-                    <button
+                    <button className="stop"
                         onClick={() => {
                             this.socket.emit("stop_timer", 1);
                         }}
                     >
-                        stop
+                        Stop
                     </button>
-                    <p>white is left with {this.state.whiteTime}</p>
-                    <p>black is left with {this.state.blackTime}</p>
+                    <p className="timeallocate">White is left with <p className="timeremain">{this.state.whiteTime}</p></p>
+                    <p className="timeallocate">Black is left with <p className="timeremain">{this.state.blackTime}</p></p>
                 </div>
             </div>
         );
