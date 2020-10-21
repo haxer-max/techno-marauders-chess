@@ -1,7 +1,32 @@
 h1{
     color: blue;
     background-color: burlywood;
+    align: center;
     
+}
+h2{
+    text-align: center;
+    border-style: solid;
+    padding: 0px;
+}
+.main{
+    margin: 0 auto;
+}
+.boardclass{
+    border: 0px;
+    padding: 0px;
+    margin-left: 100px;
+    float: left;
+    
+}
+.timer{
+    margin-top: 40px;
+    margin-right: 100px;
+    width: 200px;
+    border-style: solid;
+    border-color: blue;
+    padding: 5px;
+    float: right;
 }
 
 .box{
@@ -14,10 +39,48 @@ h1{
     text-align: center;
     display: inline;
     display: table-cell; 
-    vertical-align: middle;
+    
 }
 .rotatebutton{
-
-    margin-left:120px;
+    cursor: pointer;
+    margin-left:126px;
     margin-right:120px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 7px;
+    background-color: yellow;
+    color: red;
+}
+.start{
+    cursor: pointer;
+    color: white;
+    background-color: green;
+    font-size: 20px;
+    
+}
+.ready{
+    cursor: pointer;
+    color: blue;
+    background-color: whitesmoke;
+    margin: 5px;
+    font-size: 20px;
+}
+.stop{
+    cursor: pointer;
+    color: white;
+    background-color: red;
+    font-size: 20px;
+}
+.timeallocate{
+    font-weight: bold;
+    border-color: black;
+    border-style: solid;
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+.timeremain{
+    font-weight: bold;
+    font-size: large;
+    color: blue;
 }
