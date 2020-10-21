@@ -231,7 +231,7 @@ class Game extends React.Component {
             ll.push(<span key={-i - 1}>&#010;</span>);
         }
         return (
-            <div>
+            <div className="main">
                 <p>{this.props.location.state.roomid}</p>
                 <h1>chess</h1>
                 {(()=>{
@@ -240,7 +240,7 @@ class Game extends React.Component {
                         else return <h2>You are black</h2>
                     }
                 })()}
-                <div style={{ float:"left"}}>
+                <div className="boardclass">
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(0,0);
@@ -265,7 +265,7 @@ class Game extends React.Component {
                         }}> rotate </button>
                     </div>
                 </div>
-                <div className="timer" style={{float:"right"}}>
+                <div className="timer">
                     <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>
                     {/* {this.state.timeLeft} */}
                     <button className="start"

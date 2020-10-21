@@ -4,6 +4,30 @@ h1{
     align: center;
     
 }
+h2{
+    text-align: center;
+    border-style: solid;
+    padding: 0px;
+}
+.main{
+    margin: 0 auto;
+}
+.boardclass{
+    border: 0px;
+    padding: 0px;
+    margin-left: 100px;
+    float: left;
+    
+}
+.timer{
+    margin-top: 40px;
+    margin-right: 100px;
+    width: 200px;
+    border-style: solid;
+    border-color: blue;
+    padding: 5px;
+    float: right;
+}
 
 .box{
     cursor: pointer;
@@ -54,13 +78,7 @@ h1{
     background-color: whitesmoke;
     text-align: center;
 }
-.timer{
-    border-style: solid;
-    border-color: blue;
-    padding: 5px;
-    margin-top: 35px;
-    margin-right: 30px;
-}
+
 .timeremain{
     font-weight: bold;
     font-size: large;
