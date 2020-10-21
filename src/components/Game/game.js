@@ -266,16 +266,16 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <div style={{float:"right"}}>
-                    <button onClick={()=>{this.socket.emit("ready",1)}}>ready</button>
+                    <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>ready</button>
                     {this.state.timeLeft}
-                    <button
+                    <button className="start"
                         onClick={() => {
                             this.socket.emit("start_timer", 1);
                         }}
                     >
                         start
                     </button>
-                    <button
+                    <button className="stop"
                         onClick={() => {
                             this.socket.emit("stop_timer", 1);
                         }}

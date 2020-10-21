@@ -1,6 +1,7 @@
 h1{
     color: blue;
     background-color: burlywood;
+    align: center;
     
 }
 
@@ -14,10 +15,31 @@ h1{
     text-align: center;
     display: inline;
     display: table-cell; 
-    vertical-align: middle;
+    
 }
 .rotatebutton{
-
-    margin-left:120px;
+    margin-left:126px;
     margin-right:120px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 7px;
+    background-color: yellow;
+    color: red;
+}
+.start{
+    color: white;
+    background-color: green;
+    font-size: 20px;
+    
+}
+.ready{
+    color: blue;
+    background-color: whitesmoke;
+    margin: 5px;
+    font-size: 20px;
+}
+.stop{
+    color: white;
+    background-color: red;
+    font-size: 20px;
 }
