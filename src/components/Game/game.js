@@ -265,25 +265,25 @@ class Game extends React.Component {
                         }}> rotate </button>
                     </div>
                 </div>
-                <div style={{float:"right"}}>
-                    <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>ready</button>
-                    {this.state.timeLeft}
+                <div className="timer" style={{float:"right"}}>
+                    <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>
+                    {/* {this.state.timeLeft} */}
                     <button className="start"
                         onClick={() => {
                             this.socket.emit("start_timer", 1);
                         }}
                     >
-                        start
+                        Start
                     </button>
                     <button className="stop"
                         onClick={() => {
                             this.socket.emit("stop_timer", 1);
                         }}
                     >
-                        stop
+                        Stop
                     </button>
-                    <p>white is left with {this.state.whiteTime}</p>
-                    <p>black is left with {this.state.blackTime}</p>
+                    <p className="timeallocate">White is left with <p className="timeremain">{this.state.whiteTime}</p></p>
+                    <p className="timeallocate">Black is left with <p className="timeremain">{this.state.blackTime}</p></p>
                 </div>
             </div>
         );
