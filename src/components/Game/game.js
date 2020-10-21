@@ -105,15 +105,21 @@ class Game extends React.Component {
                 const boardtemp = this.state.BoardState.map(function (arr) {
                     return arr.slice();
                 });
-                piecelogic(
+                if(this.state.green[i][j]===1){
+                    boardtemp[i][j]=this.selectedPiece;
+                    boardtemp[this.selectedboxI][this.selectedboxJ]=0;
+                    this.socket.emit("moved", boardtemp);
+                }
+                /*piecelogic(
                     boardtemp,
                     this.selectedPiece,
                     this.selectedboxI,
                     this.selectedboxJ,
                     i,
                     j
-                );
-                let defcounter = 0;
+                );*/
+
+                /*let defcounter = 0;
                 for (let i = 0; i < 10; i++) {
                     if (defcounter === 1) {
                         break;
@@ -124,11 +130,11 @@ class Game extends React.Component {
                             break;
                         }
                     }
-                }
+                }*/
                 
-                if (defcounter) {
-                    this.socket.emit("moved", boardtemp);
-                }
+                //if (defcounter) {
+                  //  this.socket.emit("moved", boardtemp);
+                //}
 
                 //console.log("Counter is " + this.counter);
                 //this.score1 = whitescore(this.state.BoardState);
