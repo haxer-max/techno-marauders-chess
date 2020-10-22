@@ -120,7 +120,6 @@ io.on("connection", (socket) => {
                 Match.findOne({ room: data })
                     .exec()
                     .then((match) => {
-                        console.log("in mongoose " + match);
                         if (match !== null) return;
                         rooms[data] = {};
                         rooms[data].white = socket.id;
@@ -198,6 +197,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("ready", () => {
+        if(rooms[socketIds[socket.id]]===undefined) return;
         if (rooms[socketIds[socket.id]].ready === undefined) {
             rooms[socketIds[socket.id]].ready = 1;
         } else if (
@@ -209,9 +209,6 @@ io.on("connection", (socket) => {
             rooms[socketIds[socket.id]].board.turn = 1;
             rooms[socketIds[socket.id]].board.rot = 2;
             intervals[socketIds[socket.id]] = setInterval(() => {
-                // if(prevturn!=this.turn){
-                //   prevmove
-                //}
                 if (rooms[socketIds[socket.id]].board.turn === 1) {
                     --timeintervals[socketIds[socket.id]].white;
                     if (timeintervals[socketIds[socket.id]].white < 1) {
@@ -264,6 +261,8 @@ io.on("connection", (socket) => {
             .exec()
             .then((match) => {
                 match.winner = data;
+                match.wtime=rooms[socketIds[socket.id]];
+                match.btime=rooms[socketIds[socket.id]];
             });
         clearInterval(intervals[socketIds[socket.id]]);
     });
@@ -271,15 +270,11 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         if (rooms[socketIds[socket.id]]) {
             if (rooms[socketIds[socket.id]].white === socket.id) {
-                console.log("trump");
                 rooms[socketIds[socket.id]].white = undefined;
                 rooms[socketIds[socket.id]].limit--;
-                delete socketIds[socket.id];
             } else if (rooms[socketIds[socket.id]].black === socket.id) {
-                console.log("imma rob you");
                 rooms[socketIds[socket.id]].black = undefined;
                 rooms[socketIds[socket.id]].limit--;
-                delete socketIds[socket.id];
             }
         }
 

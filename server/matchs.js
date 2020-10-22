@@ -23,6 +23,12 @@ const matchSchema = mongoose.Schema({
     bpoint: {
         type: Number,
     },
+    wtime:{
+        type: Number,
+    },
+    btime:{
+        type:Number
+    },
     winner:{
         type:Number
     }
