@@ -16,5 +16,5 @@ export default function whitescore(boardstate){
             }
         }
     }
-    return scoreofwhite-255;
+    return 255-scoreofwhite;
 }

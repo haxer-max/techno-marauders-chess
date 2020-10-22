@@ -18,9 +18,9 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
         const aa=boardtemp;
         console.log("working");
         console.log(selectedboxJ);
-        const first = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
-        const second = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,];
-        for(var k=0;k<36;k++){
+        const first = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-1,-2,-3,-4,-5,-6,-7,-8,-9-10,-11,-12,-13,-14,-15];
+        const second = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15];
+        for(var k=0;k<60;k++){
             if(first[k]+selectedboxI===i && second[k]+selectedboxJ===j){
                 boardtemp[i][j]=boardtemp[selectedboxI][selectedboxJ];
                 boardtemp[selectedboxI][selectedboxJ]=0;
@@ -35,7 +35,7 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
         console.log(selectedboxI);
         const first = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         const second = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15];
-        for(var k=0;k<36;k++){
+        for(var k=0;k<60;k++){
             if(first[k]+selectedboxI===i && second[k]+selectedboxJ===j && first[k]+selectedboxI>=0 && first[k]+selectedboxI<15 && second[k]+selectedboxJ>=0 && second[k]+selectedboxJ){
                 boardtemp[i][j]=boardtemp[selectedboxI][selectedboxJ];
                 boardtemp[selectedboxI][selectedboxJ]=0;
@@ -80,8 +80,8 @@ export default function piecelogic(boardtemp,selectedPiece,selectedboxI,selected
         const aa=boardtemp;
         console.log("working");
         console.log(selectedboxJ);
-        const first = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,-1,-2,-3,-4,-5,-6,-7,-8,-9];
-        const second = [1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,1,2,3,4,5,6,7,8,9,-1,-2,-3,-4,-5,-6,-7,-8,-9,];
+        const first = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-1,-2,-3,-4,-5,-6,-7,-8,-9-10,-11,-12,-13,-14,-15];
+        const second = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15];
         for(var k=0;k<36;k++){
             if(first[k]+selectedboxI===i && second[k]+selectedboxJ===j){
                 boardtemp[i][j]=boardtemp[selectedboxI][selectedboxJ];
