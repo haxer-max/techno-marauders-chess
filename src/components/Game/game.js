@@ -8,6 +8,7 @@ import wallRotation from "./Board/wallRotation";
 import whitescore from "./Board/whitescore";
 import blackscore from "./Board/blackscore";
 import greenlogic from "./Board/greenlogic";
+import navbar from "./Board/navbar"
 
 //import wallslogicc from "./Board/wallslogicc"
 //import { render } from "@testing-library/react";
