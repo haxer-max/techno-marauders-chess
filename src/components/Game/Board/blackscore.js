@@ -3,18 +3,18 @@ export default function blackscore(boardstate){
     for (var i=0;i<10;i++){
         for (var j=0;j<15;j++){
             if(boardstate[i][j]===5){
-                scoreofblack+=1;
+                scoreofblack+=40;
             }
             else if(boardstate[i][j]==6){
-                scoreofblack+=2;
+                scoreofblack+=35;
             }
             else if(boardstate[i][j]==7){
-                scoreofblack+=3;
+                scoreofblack+=35;
             }
             else if(boardstate[i][j]==8){
-                scoreofblack+=4;
+                scoreofblack+=70;
             }
         }
     }
-    return scoreofblack-11;
+    return scoreofblack-255;
 }
