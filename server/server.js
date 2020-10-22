@@ -14,6 +14,8 @@ mongoose
     });
 
 const Match = require("./matchs");
+const whitescore=require("./whitescore");
+const blackscore=require("./blackscore");
 
 const maxTime = 20 * 60;
 const initboard = {
@@ -43,6 +45,8 @@ const initboard = {
     ],
     turn: 1,
     rot: 2,
+    ended:0,
+    gamestarted:0
 };
 const rooom = {
     white: "id",
@@ -71,6 +75,9 @@ const copyboard = () => {
         return arr.slice();
     });
     newboard.turn = -1;
+    newboard.rot=2,
+    newboard.ended=0;
+    newboard.gamestarted=0;
     return newboard;
 };
 io.on("connection", (socket) => {
@@ -208,6 +215,7 @@ io.on("connection", (socket) => {
             io.to(socketIds[socket.id]).emit("start", 1);
             rooms[socketIds[socket.id]].board.turn = 1;
             rooms[socketIds[socket.id]].board.rot = 2;
+            rooms[socketIds[socket.id]].board.gamestarted = 1;
             intervals[socketIds[socket.id]] = setInterval(() => {
                 if (rooms[socketIds[socket.id]].board.turn === 1) {
                     --timeintervals[socketIds[socket.id]].white;
@@ -223,9 +231,14 @@ io.on("connection", (socket) => {
                     --timeintervals[socketIds[socket.id]].black;
                     if (timeintervals[socketIds[socket.id]].black < 1) {
                         socket.emit("ended", 1);
-                        Match.find({ room: socketIds[socket.id] }).then(
+                        Match.findOne({ room: socketIds[socket.id] }).then(
                             (match) => {
                                 match.winner = 1;
+                                match.wtime=rooms[socketIds[socket.id]];
+                                match.btime=rooms[socketIds[socket.id]];
+                                match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
+                                match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
+                                match.save();
                             }
                         );
                     }
@@ -257,13 +270,23 @@ io.on("connection", (socket) => {
     socket.on("win", (data) => {
         console.log(data + "its over");
         io.to(socketIds[socket.id]).emit("ended", data);
-        Match.find({ room: socketIds[socket.id] })
+        Match.findOne({ room: socketIds[socket.id] })
             .exec()
             .then((match) => {
+                console.log(match);
+                console.log("ssssssssssssssssssssssssssssssssssss");
                 match.winner = data;
-                match.wtime=rooms[socketIds[socket.id]];
-                match.btime=rooms[socketIds[socket.id]];
-            });
+                match.wtime=timeintervals[socketIds[socket.id]].white;
+                match.btime=timeintervals[socketIds[socket.id]].black;
+                match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
+                match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
+                console.log(match);
+                console.log("ssssssssssssssssssssssssssssssssssss");
+                match.save();
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
         clearInterval(intervals[socketIds[socket.id]]);
     });
 

@@ -86,6 +86,7 @@ class Game extends React.Component {
         this.score1=0;
         this.score2=0;
 
+
         this.movepiece = (i, j) => {
             if(this.state.ended===1) return;
             if(this.state.gamestarted===0) return;
@@ -117,37 +118,9 @@ class Game extends React.Component {
                     boardtemp[this.selectedboxI][this.selectedboxJ]=0;
                     this.socket.emit("moved", boardtemp);
                 }
-                /*piecelogic(
-                    boardtemp,
-                    this.selectedPiece,
-                    this.selectedboxI,
-                    this.selectedboxJ,
-                    i,
-                    j
-                );*/
 
-                /*let defcounter = 0;
-                for (let i = 0; i < 10; i++) {
-                    if (defcounter === 1) {
-                        break;
-                    }
-                    for (let j = 0; j < 15; j++) {
-                        if (this.state.BoardState[i][j] !== boardtemp[i][j]) {
-                            defcounter=1;
-                            break;
-                        }
-                    }
-                }*/
-                
-                //if (defcounter) {
-                  //  this.socket.emit("moved", boardtemp);
-                //}
-
-                //console.log("Counter is " + this.counter);
                 this.score1 = whitescore(this.state.BoardState);
                 this.score2 = blackscore(this.state.BoardState);
-                //console.log("white score is "+this.score1+". and  black score is "+this.score2);
-                
                 this.selectedPiece = -1;
                 this.setState({
                     green:initgreen.map(function (arr) {
@@ -187,6 +160,7 @@ class Game extends React.Component {
                 whiteTime:timeinterval.white,
                 blackTime:timeinterval.black,
             });
+            console.log(this.state)
             //this.state.whiteTime=timeinterval.white;
             //this.state.blackTime=timeinterval.black;
             
@@ -301,7 +275,7 @@ class Game extends React.Component {
                     </button>
                     <button className="stop"
                         onClick={() => {
-                            this.socket.emit("stop_timer", 1);
+                            this.socket.emit("win", this.isWhite?0:1);
                         }}
                     >
                         Stop
