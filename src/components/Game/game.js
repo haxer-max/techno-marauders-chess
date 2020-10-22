@@ -232,14 +232,18 @@ class Game extends React.Component {
         }
         return (
             <div className="main">
-                <p>{this.props.location.state.roomid}</p>
-                <h1>chess</h1>
-                {(()=>{
-                    if(this.isWhite!==undefined){
-                        if(this.isWhite===1) return <h2>You are white</h2>
-                        else return <h2>You are black</h2>
-                    }
-                })()}
+                <div className="navbar">
+                    <p className="roomid">Your Room ID is {this.props.location.state.roomid}</p>
+                    <h2 className="chess">Marauders chess</h2>
+                    <button className="about">About Us</button>
+                    <button className="about">Rules</button>
+                    {(()=>{
+                        if(this.isWhite!==undefined){
+                            if(this.isWhite===1) return <h2>You are white</h2>
+                            else return <h2>You are black</h2>
+                        }
+                    })()}
+                </div>
                 <div className="boardclass">
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton" onClick={() => {

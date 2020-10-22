@@ -1,16 +1,41 @@
-h1{
-    color: blue;
-    background-color: burlywood;
-    align: center;
-    
-}
-h2{
-    text-align: center;
-    border-style: solid;
-    padding: 0px;
-}
 .main{
     margin: 0 auto;
+}
+.navbar{
+    background-color: black;
+    border-style: solid;
+}
+.chess{
+    color: whitesmoke;
+    text-align: left;
+    padding: 10px;
+    font-family: algerian, sans-serif;
+    margin: 0px;
+    width: fit-content;
+    float: left;
+    
+    
+}
+
+h2{
+    text-align: center;
+    padding: 0px;
+    margin-top: 57px;
+    color: whitesmoke;
+}
+
+.about{
+    background-color: black;
+    color: aliceblue;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 2px;
+    margin-top: 2px;
+    border-color: white;   
+    border-style: solid;
+    float: right;
+    border-radius: 5px;
 }
 .boardclass{
     border: 0px;
@@ -92,7 +117,7 @@ h2{
     width: 200px;
     margin-top: 60px;
     text-align: center;
-    background-color: yellowgreen;
+    background-color: #B5651D;
 }
 .score{
     font-weight: bold;
@@ -100,4 +125,11 @@ h2{
     border-style: solid;
     margin: 20px;
     font-size: large;
+}
+.roomid{
+    text-align: center;
+    font-size: larger;
+    font-family: sans-serif;
+    margin-bottom: 0px;
+    color: blanchedalmond;
 }
