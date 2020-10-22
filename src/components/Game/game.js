@@ -61,6 +61,7 @@ class Game extends React.Component {
             gamestarted:0,
             turn:-1,
             rot:-1,
+            ended:0,
             green: [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -86,7 +87,7 @@ class Game extends React.Component {
         this.score2=0;
 
         this.movepiece = (i, j) => {
-            if(this.ended===1) return;
+            if(this.state.ended===1) return;
             if(this.state.gamestarted===0) return;
             if(this.state.turn==!this.isWhite) return;    
             if (this.selectedPiece === -1) {
@@ -108,7 +109,8 @@ class Game extends React.Component {
                     return arr.slice();
                 });
                 if(this.state.green[i][j]===1){
-                    if(this.isWhite===1&& boardtemp[i][j]===8 || this.isWhite===0&&boardtemp[i][j]===8 ){
+                    if(this.isWhite===1&& boardtemp[i][j]===8 || this.isWhite===0&&boardtemp[i][j]===4 ){
+                        console.log("winwin");
                         this.socket.emit("win",this.isWhite);
                     }
                     boardtemp[i][j]=this.selectedPiece;
@@ -157,6 +159,9 @@ class Game extends React.Component {
         };
     }    
     rotate(i,j){
+        if(this.state.ended===1) return;
+        if(this.state.gamestarted===0) return;
+        if(this.state.turn==!this.isWhite) return;
         const boardtemp = this.state.BoardState.map(function (arr) {
             return arr.slice();
         });
@@ -169,7 +174,8 @@ class Game extends React.Component {
     }   
 
     componentDidMount() {
-        this.join(this.props.location.state.roomid);
+        console.log("hm "+this.props.location.state.roomid)
+        this.join(this.props.location.state.roomid,this.props.location.state.name);
         this.socket.on("move", (boardtemp) => {
             this.setState(boardtemp);
         });
@@ -205,17 +211,19 @@ class Game extends React.Component {
         this.socket.on("start",(data)=>{
             this.state.gamestarted=data;
             this.state.turn=1;
+            this.state.rot=2;
         });
-        this.socket.on('end',(data)=>{
-            if(this.isWhite===data) alert("you won, yay");
-            else alert("you lost, sed :/");
-            this.ended=1;
+        this.socket.on('ended',(data)=>{
+            if(this.isWhite===data) alert("Congratulations, You won!!");
+            else alert("you lost :( better luck next time");
+            this.state.ended=1;
         })
     }
 
-    join(roomid) {
+    join(data,rollno) {
         console.log("joining");
-        this.socket.emit("join", roomid);
+        console.log(data);
+        this.socket.emit("join", {data,rollno});
     }
 
     renbox(i, j) {
