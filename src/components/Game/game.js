@@ -8,8 +8,6 @@ import wallRotation from "./Board/wallRotation";
 import whitescore from "./Board/whitescore";
 import blackscore from "./Board/blackscore";
 import greenlogic from "./Board/greenlogic";
-import navbar from "./Board/navbar"
-
 //import wallslogicc from "./Board/wallslogicc"
 //import { render } from "@testing-library/react";
 
@@ -236,7 +234,7 @@ class Game extends React.Component {
                 <div className="navbar">
                     <p className="roomid">Your Room ID is {this.props.location.state.roomid}</p>
                     <h2 className="chess">Marauders chess</h2>
-                    <button className="about">About Us</button>
+                    <button className="about" onClick>About Us</button>
                     <button className="about">Rules</button>
                     {(()=>{
                         if(this.isWhite!==undefined){
