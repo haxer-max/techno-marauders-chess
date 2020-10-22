@@ -234,13 +234,14 @@ io.on("connection", (socket) => {
                         Match.findOne({ room: socketIds[socket.id] }).then(
                             (match) => {
                                 match.winner = 1;
-                                match.wtime=rooms[socketIds[socket.id]];
-                                match.btime=rooms[socketIds[socket.id]];
+                                match.wtime=timeintervals[socketIds[socket.id]].white;
+                                match.btime=timeintervals[socketIds[socket.id]].black;
                                 match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
                                 match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
                                 match.save();
                             }
                         );
+                        clearInterval(intervals[socketIds[socket.id]]);
                     }
                 }
                 io.to(socketIds[socket.id]).emit(
@@ -273,15 +274,11 @@ io.on("connection", (socket) => {
         Match.findOne({ room: socketIds[socket.id] })
             .exec()
             .then((match) => {
-                console.log(match);
-                console.log("ssssssssssssssssssssssssssssssssssss");
                 match.winner = data;
                 match.wtime=timeintervals[socketIds[socket.id]].white;
                 match.btime=timeintervals[socketIds[socket.id]].black;
                 match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
                 match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
-                console.log(match);
-                console.log("ssssssssssssssssssssssssssssssssssss");
                 match.save();
             })
             .catch((err)=>{

@@ -60,6 +60,7 @@ class Game extends React.Component {
             blackTime:60*20,
             gamestarted:0,
             turn:-1,
+            joined:0,
             rot:-1,
             ended:0,
             green: [
@@ -199,6 +200,7 @@ class Game extends React.Component {
         console.log("joining");
         console.log(data);
         this.socket.emit("join", {data,rollno});
+        this.state.joined=1;
     }
 
     renbox(i, j) {
@@ -268,21 +270,17 @@ class Game extends React.Component {
                     </div>
                 </div>
                 <div className="timer">
-                    <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>
-                    {/* {this.state.timeLeft} */}
-                    <button className="start"
-                        onClick={() => {
-                            this.socket.emit("start_timer", 1);
-                        }}
-                    >
-                        Start
-                    </button>
+                {(()=>{
+                        if(!this.state.gamestarted && this.state.joined){
+                            return <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>;
+                            }
+                    })()}
                     <button className="stop"
                         onClick={() => {
                             this.socket.emit("win", this.isWhite?0:1);
                         }}
                     >
-                        Stop
+                        I wanna give up
                     </button>
                     <p className="timeallocate">White is left with <p className="timeremain">{this.state.whiteTime}</p></p>
                     <p className="timeallocate">Black is left with <p className="timeremain">{this.state.blackTime}</p></p>

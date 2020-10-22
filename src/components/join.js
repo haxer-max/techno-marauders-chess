@@ -14,7 +14,7 @@ export default function Join(){
             <img class="image" src="techno" alt="Technotholon" width="72" height="72"></img>
             <h1 class="heading">Please sign in</h1>
             <input type="text" id="inputname" class="form-control" onChange={(event) => setName(event.target.value)} placeholder="Name" required autofocus></input>
-            <input type="number" id="inputroom" class="form-control" onChange={(event) => setRoom(event.target.value)} placeholder="Room" required></input>
+            <input type="text" id="inputroom" class="form-control" onChange={(event) => setRoom(event.target.value)} placeholder="Room" required></input>
             <div>
             <Link onClick={(e) => (!name || !room ? e.preventDefault() : null)} to={{ pathname: "/game", state: {name: name, roomid:room,},}}>
                 <button class="submit" type="submit">Lets Go!</button>
