@@ -192,6 +192,10 @@ class Game extends React.Component {
             if(this.isWhite===data) alert("Congratulations, You won!!");
             else alert("you lost :( better luck next time");
             this.state.ended=1;
+            console.log(this.state)
+            this.setState({
+               ended:1
+            });
         })
     }
 
@@ -274,13 +278,19 @@ class Game extends React.Component {
                             return <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>;
                             }
                     })()}
-                    <button className="stop"
-                        onClick={() => {
-                            this.socket.emit("win", this.isWhite?0:1);
-                        }}
-                    >
-                        I wanna give up
-                    </button>
+                {(()=>{
+                        if(this.state.ended===0){
+                            console.log("clear this")
+                            return  <button className="stop"
+                            onClick={() => {
+                                this.socket.emit("win", this.isWhite?0:1);
+                            }}
+                        >
+                            I wanna give up
+                        </button>
+                            }
+                    })()}
+
                     <p className="timeallocate">White is left with <p className="timeremain">{this.state.whiteTime}</p></p>
                     <p className="timeallocate">Black is left with <p className="timeremain">{this.state.blackTime}</p></p>
                 </div>

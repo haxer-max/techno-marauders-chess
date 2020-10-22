@@ -17,7 +17,7 @@ const Match = require("./matchs");
 const whitescore=require("./whitescore");
 const blackscore=require("./blackscore");
 
-const maxTime = 20 * 60;
+const maxTime = 20 ;//* 60;
 const initboard = {
     BoardState: [
         [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
@@ -220,17 +220,23 @@ io.on("connection", (socket) => {
                 if (rooms[socketIds[socket.id]].board.turn === 1) {
                     --timeintervals[socketIds[socket.id]].white;
                     if (timeintervals[socketIds[socket.id]].white < 1) {
-                        socket.emit("ended", 0);
-                        Match.find({ room: socketIds[socket.id] }).then(
+                        io.to(socketIds[socket.id]).emit("ended", 0);
+                        Match.findOne({ room: socketIds[socket.id] }).then(
                             (match) => {
                                 match.winner = 0;
+                                match.wtime=timeintervals[socketIds[socket.id]].white;
+                                match.btime=timeintervals[socketIds[socket.id]].black;
+                                match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
+                                match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
+                                match.save();
                             }
                         );
+                        clearInterval(intervals[socketIds[socket.id]]);
                     }
                 } else {
                     --timeintervals[socketIds[socket.id]].black;
                     if (timeintervals[socketIds[socket.id]].black < 1) {
-                        socket.emit("ended", 1);
+                        io.to(socketIds[socket.id]).emit("ended", 1);
                         Match.findOne({ room: socketIds[socket.id] }).then(
                             (match) => {
                                 match.winner = 1;
