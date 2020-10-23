@@ -5,7 +5,7 @@ import "./../join.css";
 //import Game from "./components/Game/chat.js";
 //import Game from "./components/Game/chat.js"
 import { Link } from "react-router-dom";
-import techno from "./Game/techno.jpg"
+import techno from "./Game/images/techno.jpg"
 
 export default function Join(){
     const [name, setName] = useState("");

@@ -8,6 +8,8 @@ import wallRotation from "./Board/wallRotation";
 import whitescore from "./Board/whitescore";
 import blackscore from "./Board/blackscore";
 import greenlogic from "./Board/greenlogic";
+import {AboutModal} from "./AboutModal";
+import {RulesModal} from "./RulesModal";
 //import wallslogicc from "./Board/wallslogicc"
 //import { render } from "@testing-library/react";
 
@@ -82,10 +84,16 @@ class Game extends React.Component {
         this.socket = io(serverURI);
         this.score1=0;
         this.score2=0;
+        this.timeallocateblack= "timeallocate";
+        this.timeallocatewhite= "timeallocate1";
+        this.timeallocatetemp="timeallocate1"
+        
 
         this.movepiece = (i, j) => {
             if(this.state.gamestarted===0) return;
-            if(this.state.turn==!this.isWhite) return;    
+            this.score1 = whitescore(this.state.BoardState);
+            this.score2 = blackscore(this.state.BoardState);
+            if(this.state.turn==!this.isWhite) return; 
             if (this.selectedPiece === -1) {
                 if (this.state.BoardState[i][j] !== 0) {
                     this.selectedboxI = i;
@@ -95,8 +103,9 @@ class Game extends React.Component {
                             (this.isWhite === 0 && this.state.BoardState[i][j] > 4)   
                         ){
                             this.selectedPiece = this.state.BoardState[i][j];
-                            greenlogic(i,j,this.state.BoardState,this.state.walls,this.state.green);
+                            greenlogic(i,j,this.state.BoardState,this.state.walls,this.state.green);       
                         }
+                        
                     }
                 }
             }
@@ -104,11 +113,14 @@ class Game extends React.Component {
                 const boardtemp = this.state.BoardState.map(function (arr) {
                     return arr.slice();
                 });
+                
                 if(this.state.green[i][j]===1){
                     boardtemp[i][j]=this.selectedPiece;
                     boardtemp[this.selectedboxI][this.selectedboxJ]=0;
                     this.socket.emit("moved", boardtemp);
+                     
                 }
+                
                 /*piecelogic(
                     boardtemp,
                     this.selectedPiece,
@@ -136,18 +148,21 @@ class Game extends React.Component {
                 //}
 
                 //console.log("Counter is " + this.counter);
-                this.score1 = whitescore(this.state.BoardState);
-                this.score2 = blackscore(this.state.BoardState);
+                
                 //console.log("white score is "+this.score1+". and  black score is "+this.score2);
                 this.selectedPiece = -1;
+                this.timeallocatetemp=this.timeallocatewhite;
+                this.timeallocatewhite=this.timeallocateblack;
+                this.timeallocateblack=this.timeallocatetemp; 
                 this.setState({
                     green:initgreen.map(function (arr) {
                         return arr.slice();
                     }),
                 });
+                
             }
-
         };
+        
     }    
     rotate(i,j){
         const boardtemp = this.state.BoardState.map(function (arr) {
@@ -217,8 +232,7 @@ class Game extends React.Component {
             />
         );
     }
-
-
+    
 
     render() {
          
@@ -234,12 +248,14 @@ class Game extends React.Component {
                 <div className="navbar">
                     <p className="roomid">Your Room ID is {this.props.location.state.roomid}</p>
                     <h2 className="chess">Marauders chess</h2>
-                    <button className="about" onClick>About Us</button>
-                    <button className="about">Rules</button>
+                    <nav>
+                        <AboutModal />
+                        <RulesModal />
+                    </nav>
                     {(()=>{
                         if(this.isWhite!==undefined){
-                            if(this.isWhite===1) return <h2>You are white</h2>
-                            else return <h2>You are black</h2>
+                            if(this.isWhite===1) return <h2 class="you">You are White</h2>
+                            else return <h2 class="you">You are Black</h2>
                         }
                     })()}
                 </div>
@@ -247,27 +263,28 @@ class Game extends React.Component {
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(0,0);
-                        }}> rotate </button>
+                        }}> Rotate </button>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(0,5);
-                        }}> rotate </button>
+                        }}> Rotate </button>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(0,10)
-                        }}> rotate </button>
+                        }}> Rotate </button>
                     </div>
                     <div>{ll}</div>
                     <div style={{ display: "flex" }}>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(5,0)
-                        }}> rotate </button>
+                        }}> Rotate </button>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(5,5)
-                        }}> rotate </button>
+                        }}> Rotate </button>
                         <button className="rotatebutton" onClick={() => {
                             this.rotate(5,10)
-                        }}> rotate </button>
+                        }}> Rotate </button>
                     </div>
                 </div>
+                
                 <div className="timer">
                     <button className="ready" onClick={()=>{this.socket.emit("ready",1)}}>Ready</button>
                     {/* {this.state.timeLeft} */}
@@ -285,14 +302,14 @@ class Game extends React.Component {
                     >
                         Stop
                     </button>
-                    <p className="timeallocate">White is left with <p className="timeremain">{this.state.whiteTime}</p></p>
-                    <p className="timeallocate">Black is left with <p className="timeremain">{this.state.blackTime}</p></p>
+                          
+                    <p className={this.timeallocatewhite}>White is left with <p className="timeremain">{Math.floor((this.state.whiteTime)/60)}min {(this.state.whiteTime)%60}sec</p></p>
+                    <p className={this.timeallocateblack}>Black is left with <p className="timeremain">{Math.floor((this.state.blackTime)/60)}min {(this.state.blackTime)%60}sec</p></p>
                 </div>
-                <div className="scoreboard">
-                    <p className="score">White score is <p className="timeremain">{this.score2}</p></p>
-                    <p className="score">Black score is <p className="timeremain">{this.score1}</p></p>
-
+                <div className="footer1">
+                    Copyright &copy; 2019-2020 <a href="https://technothlon.techniche.org.in/" target="_blank">Technotholon</a>. All right Reserved
                 </div>
+                
             </div>
         );
     }
