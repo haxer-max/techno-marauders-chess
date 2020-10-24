@@ -8,20 +8,22 @@
 .chess{
     color: whitesmoke;
     text-align: left;
-    padding: 10px;
+    padding: 0px;
     font-family: algerian, sans-serif;
     margin: 0px;
     width: fit-content;
     float: left;
-    
-    
+    font-size: 40px;
 }
 
-h2{
+.you{
     text-align: center;
     padding: 0px;
     margin-top: 57px;
     color: whitesmoke;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 .about{
@@ -31,23 +33,27 @@ h2{
     font-size: 20px;
     cursor: pointer;
     margin: 2px;
-    margin-top: 2px;
+    margin: 5px;
+    margin-left: 10px;
     border-color: white;   
     border-style: solid;
     float: right;
     border-radius: 5px;
+    border-style: hidden;
 }
 .boardclass{
+    position: relative;
     border: 0px;
     padding: 0px;
     margin-left: 100px;
     float: left;
+    display: inline;
     
 }
 .timer{
-    margin-top: 40px;
+    margin-top: 100px;
     margin-right: 100px;
-    width: 200px;
+    width: 220px;
     border-style: solid;
     border-color: blue;
     padding: 5px;
@@ -103,7 +109,13 @@ h2{
     background-color: whitesmoke;
     text-align: center;
 }
-
+.timeallocate1{
+    font-weight: bold;
+    border-color: black;
+    border-style: solid;
+    background-color: #99FF00;
+    text-align: center;
+}
 .timeremain{
     font-weight: bold;
     font-size: large;
@@ -128,8 +140,14 @@ h2{
 }
 .roomid{
     text-align: center;
-    font-size: larger;
+    font-size: 30px;
     font-family: sans-serif;
     margin-bottom: 0px;
     color: blanchedalmond;
+    font-family: Algerian,sans-serif, Verdana, Geneva, Tahoma ;
+}
+.footer1{
+    float: right;
+    margin-top: 30%;
+    margin-right: 0px;
 }
