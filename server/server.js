@@ -4,7 +4,7 @@ const io = require("socket.io")(server);
 const cors = require("cors");
 const mongoose = require("mongoose");
 mongoose
-    .connect("mongodb://localhost:27017/technoChess", {
+    .connect("mongodb+srv://Shridam:Techno20@cluster0.zrjf3.mongodb.net/marauders_chess?retryWrites=true&w=majority", {
         useUnifiedTopology: true,
         useNewUrlParser: true,
     })
@@ -17,7 +17,7 @@ const Match = require("./matchs");
 const whitescore=require("./whitescore");
 const blackscore=require("./blackscore");
 
-const maxTime = 20 ;//* 60;
+const maxTime = 20*60 ;//* 60;
 const initboard = {
     BoardState: [
         [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],

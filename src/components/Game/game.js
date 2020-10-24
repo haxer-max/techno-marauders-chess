@@ -153,7 +153,7 @@ class Game extends React.Component {
             this.setState(boardtemp);
         });
         this.socket.on("roomid", ({ roomid, isWhite, board,timeinterval }) => {
-            alert("Ypu joined room "+roomid)
+            alert("You joined room "+roomid)
             this.isWhite = isWhite;
             this.setState(board);
             this.setState({
