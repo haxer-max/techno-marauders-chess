@@ -38,15 +38,24 @@ export class RulesModal extends Component {
               <Modal.Title>Rules</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div
-                id="carouselExampleControls"
-                class="carousel slide"
-                data-ride="carousel"
-                data-interval="false"
-                data-wrap="false"
-              >
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
+              <div>
+                    
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    
+                    
+                    
                     <h3>Basic Instructions</h3>
                     <ul>
                       <li>
@@ -70,8 +79,7 @@ export class RulesModal extends Component {
                         out.
                       </li>
                     </ul>
-                  </div>
-                  <div class="carousel-item">
+
                     <h3>Valid Moves of Pieces</h3>
                     <ul>
                       <li>
@@ -92,8 +100,7 @@ export class RulesModal extends Component {
                       </li>
                     </ul>
                     <img src={knight_move} class="center"></img>
-                  </div>
-                  <div class="carousel-item">
+
                     <h3>Movement of Bishop:</h3>
                     <ul>
                       <li>
@@ -106,8 +113,6 @@ export class RulesModal extends Component {
                       </li>
                     </ul>
                     <img src={bishop_move} class="center"></img>
-                  </div>
-                  <div class="carousel-item">
                     <h3>How to play:</h3>
                     <ul>
                       <li>
@@ -125,32 +130,8 @@ export class RulesModal extends Component {
                         the screen for the match updates.
                       </li>
                     </ul>
-                  </div>
-                </div>
-                <a
-                  class="carousel-control-prev carousel-color"
-                  href="#carouselExampleControls"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next carousel-color"
-                  href="#carouselExampleControls"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
+
+
               </div>
             </Modal.Body>
           </Modal>

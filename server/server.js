@@ -4,8 +4,8 @@ const io = require("socket.io")(server);
 const cors = require("cors");
 const mongoose = require("mongoose");
 mongoose
-.connect("mongodb://localhost:27017/technoChess", {
-    //.connect("mongodb+srv://Shridam:Techno20@cluster0.zrjf3.mongodb.net/marauders_chess?retryWrites=true&w=majority", {
+//.connect("mongodb://localhost:27017/technoChess", {
+    .connect("mongodb+srv://Shridam:Techno20@cluster0.zrjf3.mongodb.net/marauders_chess?retryWrites=true&w=majority", {
         useUnifiedTopology: true,
         useNewUrlParser: true,
     })
