@@ -36,7 +36,7 @@ import atharva_img from "./images/atharva.jpeg";
             About
           </Button>
   
-          <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal style={{opacity:1}} show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Marauders' Chess</Modal.Title>
             </Modal.Header>

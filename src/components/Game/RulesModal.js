@@ -33,7 +33,7 @@ export class RulesModal extends Component {
             Rules
           </Button>
   
-          <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal style={{opacity:1}} show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Rules</Modal.Title>
             </Modal.Header>
