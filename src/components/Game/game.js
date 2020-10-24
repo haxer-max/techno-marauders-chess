@@ -283,7 +283,10 @@ class Game extends React.Component {
                             console.log("clear this")
                             return  <button className="stop"
                             onClick={() => {
-                                this.socket.emit("win", this.isWhite?0:1);
+                                if (window.confirm("Are you sure you want to give up?")) {
+                                    this.socket.emit("win", this.isWhite?0:1);
+                                  } 
+                                
                             }}
                         >
                             I wanna give up
