@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./../../../App.css";
 
 const img_dict = {
@@ -14,11 +14,21 @@ const img_dict = {
 
 export default function Box(props) {
     let background = () => {
-        if (props.colour % 2 === 1) return "burlywood";
-        else return "rgb(100, 60, 7)";
+        let j=Math.floor(props.colour/15);
+        let i= props.colour%15;
+        if(props.isgreen===1) return "rgb(75, 201, 37)"
+        if(((i<5||i>9)&& j<5) || ((i>4 && i<10)&&j>4))
+        {
+            if (props.colour % 2 === 1) return "burlywood";
+            else return "rgb(131, 85, 29)";
+        } else{
+            if (props.colour % 2 === 1) return "rgb(235, 206, 170)";
+            else return "rgb(102, 60, 9)";
+            //
+        }
     };
     let border = () => {
-        console.log(props.w);
+        //console.log(props.w);
         switch (props.w) {
             case 1:
                 return "inset 0px 8px 0px 0px black";
