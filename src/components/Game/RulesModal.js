@@ -2,7 +2,7 @@ import React, {component} from 'react';
 import { Component } from 'react';
 import "./ui.css";
 import { Modal, Button } from "../../../node_modules/react-bootstrap";
-import "./bootstrap-3.4.1-dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import knight_move from "./images/knight_move.png";
 import bishop_move from "./images/bishop_move.png";
 

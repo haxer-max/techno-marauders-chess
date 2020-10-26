@@ -8,7 +8,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./../../App.css";
 import Box from "./Board/box.js";
 import io from "socket.io-client";
-import piecelogic from "./Board/piecelogic";
 import pieceRotation from "./Board/pieceRotation";
 import wallRotation from "./Board/wallRotation";
 import whitescore from "./Board/whitescore";

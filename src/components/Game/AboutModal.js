@@ -2,7 +2,7 @@ import React, {component} from 'react';
 import { Component } from 'react';
 import "./ui.css";
 import { Modal, Button } from "../../../node_modules/react-bootstrap";
-import "./bootstrap-3.4.1-dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import prateek_img from "./images/prateek.jpg";
 import suhas_img from "./images/suhas.jpg";
 import yash_img from "./images/yash.jpg";
