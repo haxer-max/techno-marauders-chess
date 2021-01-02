@@ -225,10 +225,10 @@ class Game extends React.Component {
         });
     }
 
-    join(data, rollno) {
+    join(RoomId, rollno) {
         console.log("joining");
-        console.log(data);
-        this.socket.emit("join", { data, rollno });
+        console.log(RoomId);
+        this.socket.emit("join", { RoomId, rollno });
         this.state.joined = 1;
     }
 
