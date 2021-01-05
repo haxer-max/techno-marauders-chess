@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const whitescore=require("./whitescore");
 const blackscore=require("./blackscore");
-const joinlogic=require("./joinlogic");
+//const joinlogic=require("./joinlogic");
 const maxTime = 20*60 ;
 const initboard = {
     BoardState: [

@@ -3,12 +3,6 @@ import { Component } from 'react';
 import "./ui.css";
 import { Modal, Button } from "../../../node_modules/react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import prateek_img from "./images/prateek.jpg";
-import suhas_img from "./images/suhas.jpg";
-import yash_img from "./images/yash.jpg";
-import rahul_img from "./images/rahul.jpeg";
-import atharva_img from "./images/atharva.jpeg";
-
  export class AboutModal extends Component {
     constructor(props, context) {
       super(props, context);
@@ -41,8 +35,8 @@ import atharva_img from "./images/atharva.jpeg";
               <Modal.Title>Marauders' Chess</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <h1 class="font-weight-bold text-center">Contributors</h1>
-              {/* <p class="h3" class="font-weight-bold">
+              {/*<h1 class="font-weight-bold text-center">Contributors</h1>
+               <p class="h3" class="font-weight-bold">
                               Yash Kumar <a href = "https://github.com/yashkmr99" target="_blank" rel="noopener noreferrer"><i class = "fa fa-github"></i></a>
                               <br></br>
                               Suhas Prabhandam <a href = "https://github.com/Suhas1998" target="_blank" rel="noopener noreferrer"><i class = "fa fa-github"></i></a>
@@ -51,7 +45,9 @@ import atharva_img from "./images/atharva.jpeg";
                               
                           </p> */}
               <div class="d-flex justify-content-around">
-                <div class="profile-card-2">
+                <h4>Marauders' chess was one of the 3 events which were build for Technothlon 2020</h4>
+                
+                {/*<div class="profile-card-2">
                   <img src={prateek_img} alt="Person" class="card__image"></img>
                   <p class="card__name">Prathik S Nayak</p>
                   <ul class="social-icons">
@@ -215,20 +211,20 @@ import atharva_img from "./images/atharva.jpeg";
                       </a>
                     </li>
                   </ul>
-                </div>
+                </div>*/}
               </div>
             </Modal.Body>
             <Modal.Footer>
               <div class="justify-content-center d-flex github-footer">
                 <a
                   class="btn btn-dark"
-                  href="https://github.com/yashkmr99/marauders-chess-react"
+                  href="https://github.com/haxer-max/techno-marauders-chess"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <i class="fa fa-github fa-2x"></i>
                   <span class="icon_text">
-                    Show your love by giving a Star to our Github Repository
+                    Show your love by giving a Star to Github Repo
                   </span>
                 </a>
               </div>
