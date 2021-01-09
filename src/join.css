@@ -96,11 +96,20 @@ html, body {
   }
   
   .heading {
-    color: white;
+    color: gold;
     font-size: 2.5em;
+    font-family:  Stencil Std,algerian, sans-serif;
+    padding-bottom: 10px;
+    //border-bottom: 2px solid white;
+  }
+  .subheading {
+    color: white;
+    font-size: 2 em;
+    font-family:  Brush Script Std, Stencil Std,algerian, sans-serif;
     padding-bottom: 10px;
     border-bottom: 2px solid white;
   }
+ 
   
   .button {
       color: #fff !important;
