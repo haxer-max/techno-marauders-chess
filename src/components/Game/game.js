@@ -225,10 +225,10 @@ class Game extends React.Component {
         });
     }
 
-    join(data, rollno) {
+    join(RoomId, rollno) {
         console.log("joining");
-        console.log(data);
-        this.socket.emit("join", { data, rollno });
+        console.log(RoomId);
+        this.socket.emit("join", { RoomId, rollno });
         this.state.joined = 1;
     }
 
@@ -260,7 +260,7 @@ class Game extends React.Component {
             <div className="main">
                 <div className="navbar">
                     <p className="roomid">
-                        Your Room ID is {this.props.location.state.roomid}
+                        Your Room ID is <span className="code">{this.props.location.state.roomid}</span>
                     </p>
                     <h2 className="chess">Marauders chess</h2>
                     <nav>
