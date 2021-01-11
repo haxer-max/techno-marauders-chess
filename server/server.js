@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
 
     socket.on("moved", (data) => {
-        console.log("moved");
+        console.log(socketIds[socket.id]+" moved");
         rooms[socketIds[socket.id]].board.BoardState = data;
         rooms[socketIds[socket.id]].board.turn = rooms[socketIds[socket.id]]
             .board.turn
@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("rotated", ({ board, wall }) => {
-        console.log("rotated");
+        console.log(socketIds[socket.id]+" rotated");
         if (rooms[socketIds[socket.id]].board.rot > 1) {
             rooms[socketIds[socket.id]].board.BoardState = board;
             rooms[socketIds[socket.id]].board.walls = wall;
