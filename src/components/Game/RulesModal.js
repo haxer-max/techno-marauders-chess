@@ -130,6 +130,15 @@ export class RulesModal extends Component {
                     <h3>How to play:</h3>
                     <ul>
                       <li>
+                        One player will click create game on home page after the player connects, he/she will see see Room ID at top left of screen.
+                      </li>
+                      <li>
+                        Now second player will type the Room ID in filed and will click join game.
+                      </li>
+                      <li>
+                        Now to start the game, both players sholud click pn ready button. After this time will start ticking and you are free to play.
+                      </li>
+                      <li>
                         To initiate a move, select the piece and then select the
                         destination cell. The piece can be moved only if it is its
                         valid movement and no other piece or wall is blocking its
