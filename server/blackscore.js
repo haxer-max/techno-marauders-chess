@@ -5,10 +5,10 @@ module.exports= function blackscore(boardstate){
             if(boardstate[i][j]===1){
                 scoreofwhite+=50;
             }
-            else if(boardstate[i][j]==2){
+            else if(boardstate[i][j]===2){
                 scoreofwhite+=35;
             }
-            else if(boardstate[i][j]==3){
+            else if(boardstate[i][j]===3){
                 scoreofwhite+=35;
             }
         }

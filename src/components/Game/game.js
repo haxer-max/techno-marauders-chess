@@ -516,16 +516,6 @@ class Game extends React.Component {
                 </div>
                 </div>
 
-                <div className="footer1">
-                    Copyright &copy; 2019-2020{" "}
-                    <a
-                        href="https://technothlon.techniche.org.in/"
-                        target="_blank"
-                    >
-                        Technotholon
-                    </a>
-                    . All right Reserved
-                </div>
             </div>
         );
     }
