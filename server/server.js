@@ -3,20 +3,10 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
 const mongoose = require("mongoose");
-mongoose
-  .connect("mongodb://localhost:27017/technoChess", {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-    })
-    .then(() => console.log("DB Connected!"))
-    .catch((err) => {
-        console.log(`DB Connection Error: ${err.message}`);
-    });
 
-const Match = require("./matchs");
 const whitescore=require("./whitescore");
 const blackscore=require("./blackscore");
-
+//const joinlogic=require("./joinlogic");
 const maxTime = 20*60 ;
 const initboard = {
     BoardState: [
@@ -58,11 +48,10 @@ const rooom = {
     bscore: 10,
     bscore: 10,
 };
-const socketIds = {};
-const rooms = {};
-const time = {};
-const intervals = {};
-const timeintervals = {};
+const socketIds = {};  //maps socketit to roomid
+const rooms = {};   // maps roomid to room detalils
+const intervals = {}; //contains interval function
+const timeintervals = {}; // contains time
 
 app.use(cors({ origin: "http://localhost:3000" }));
 
@@ -80,17 +69,18 @@ const copyboard = () => {
     newboard.gamestarted=0;
     return newboard;
 };
+
 io.on("connection", (socket) => {
     console.log(`${socket.id} connected`);
 
     socket.on("moved", (data) => {
+        console.log(socketIds[socket.id]+" moved");
         rooms[socketIds[socket.id]].board.BoardState = data;
         rooms[socketIds[socket.id]].board.turn = rooms[socketIds[socket.id]]
             .board.turn
             ? 0
             : 1;
         ++rooms[socketIds[socket.id]].board.rot;
-        //console.log(rooms[socketIds[socket.id]])
         io.to(socketIds[socket.id]).emit(
             "move",
             rooms[socketIds[socket.id]].board
@@ -98,13 +88,11 @@ io.on("connection", (socket) => {
     });
 
     socket.on("rotated", ({ board, wall }) => {
-        console.log(rooms[socketIds[socket.id]].board.rot);
+        console.log(socketIds[socket.id]+" rotated");
         if (rooms[socketIds[socket.id]].board.rot > 1) {
-            console.log("rotationg");
             rooms[socketIds[socket.id]].board.BoardState = board;
             rooms[socketIds[socket.id]].board.walls = wall;
-            rooms[socketIds[socket.id]].board.turn = rooms[socketIds[socket.id]]
-                .board.turn? 0 : 1;
+            rooms[socketIds[socket.id]].board.turn = rooms[socketIds[socket.id]].board.turn? 0 : 1;
             rooms[socketIds[socket.id]].board.rot = 0;
             io.to(socketIds[socket.id]).emit(
                 "move",
@@ -113,88 +101,53 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("join", ({ data, rollno }) => {
-        console.log(data);
-        if (rooms[data] === undefined || rooms[data].limit < 2) {
-            if (rooms[data] === undefined) {
-                console.log(data);
-                Match.findOne({ room: data })
-                    .exec()
-                    .then((match) => {
-                        if (match !== null) return;
-                        rooms[data] = {};
-                        rooms[data].white = socket.id;
-                        rooms[data].limit = 1;
-                        rooms[data].board = copyboard();
-                        console.log(rooms[data]);
-                        timeintervals[data] = {};
-                        timeintervals[data].white = maxTime;
-                        timeintervals[data].black = maxTime;
-                        socket.emit("roomid", {
-                            roomid: data,
-                            isWhite: 1,
-                            board: rooms[data].board,
-                            timeinterval: timeintervals[data],
-                        });
-                        const match2 = new Match({
-                            _id: new mongoose.Types.ObjectId(),
-                            userw: rollno,
-                            room: data,
-                        });
-                        match2.save();
-                        console.log("yay");
-                    });
-            } else {
-                if (rooms[data].white === undefined) {
-                    Match.findOne({ room: data }).then((match) => {
-                        if (match.winner !== undefined) return;
-                        if (match.userw === rollno) {
-                            rooms[data].white = socket.id;
-                            rooms[data].limit += 1;
-                            if (rooms[data].whiteTime === undefined)
-                                rooms[data].whiteTime = maxTime;
-                            socket.emit("roomid", {
-                                roomid: data,
-                                isWhite: 1,
-                                board: rooms[data].board,
-                                timeinterval: timeintervals[data],
-                            });
-                            console.log("y0");
-                        } else if (match.userb === rollno) {
-                            rooms[data].black = socket.id;
-                            rooms[data].limit += 1;
-                            socket.emit("roomid", {
-                                roomid: data,
-                                isWhite: 0,
-                                board: rooms[data].board,
-                                timeinterval: timeintervals[data],
-                            });
-                            console.log("hmm");
-                        }
-                    });
-                } else {
-                    Match.findOne({ room: data }).then((match) => {
-                        if (match.winner !== undefined) return;
-                        rooms[data].black = socket.id;
-                        rooms[data].limit += 1;
-                        socket.emit("roomid", {
-                            roomid: data,
-                            isWhite: 0,
-                            board: rooms[data].board,
-                            timeinterval: timeintervals[data],
-                        });
-                        console.log("hmm");
-                        match.userb = rollno;
-                        match.save();
-                    });
-                }
-            }
-            socketIds[socket.id] = data;
-            if (time[socketIds[socket.id]] === undefined) {
-                time[socketIds[socket.id]] = maxTime;
-            }
-            socket.join(data);
+    socket.on("join", ({ RoomId, rollno }) => {
+        console.log("roomid ")
+        console.log(RoomId);
+        console.log(rollno)
+        if (RoomId === undefined){
+            console.log("bad room id");
+            return;
         }
+        if (rooms[RoomId] === undefined) {
+            rooms[RoomId] = {};
+            rooms[RoomId].white = socket.id;
+            rooms[RoomId].limit = 1;
+            rooms[RoomId].board = copyboard();
+            timeintervals[RoomId] = {};
+            timeintervals[RoomId].white = maxTime;
+            timeintervals[RoomId].black = maxTime;
+            socket.emit("roomid", {
+                roomid: RoomId,
+                isWhite: 1,
+                board: rooms[RoomId].board,
+                timeinterval: timeintervals[RoomId],
+            })
+            
+        } else if(rooms[RoomId].limit < 2) {
+            if (rooms[RoomId].white === undefined) {
+                rooms[RoomId].white = socket.id;
+                rooms[RoomId].limit += 1;
+                socket.emit("roomid", {
+                    roomid: RoomId,
+                    isWhite: 1,
+                    board: rooms[RoomId].board,
+                    timeinterval: timeintervals[RoomId],
+                });
+            } else {
+                rooms[RoomId].black = socket.id;
+                rooms[RoomId].limit += 1;
+                socket.emit("roomid", {
+                    roomid: RoomId,
+                    isWhite: 0,
+                    board: rooms[RoomId].board,
+                    timeinterval: timeintervals[RoomId],
+                });
+            }             
+        }
+        socketIds[socket.id] = RoomId;
+        socket.join(RoomId);
+        console.log(RoomId)
     });
 
     socket.on("ready", () => {
@@ -211,36 +164,21 @@ io.on("connection", (socket) => {
             rooms[socketIds[socket.id]].board.rot = 2;
             rooms[socketIds[socket.id]].board.gamestarted = 1;
             intervals[socketIds[socket.id]] = setInterval(() => {
-                if (rooms[socketIds[socket.id]].board.turn === 1) {
+                if(!rooms[socketIds[socket.id]]){
+                    console.log("Forced Clear")
+                    clearInterval(intervals[socketIds[socket.id]])
+                    
+                }
+                else if (rooms[socketIds[socket.id]].board.turn === 1) {
                     --timeintervals[socketIds[socket.id]].white;
                     if (timeintervals[socketIds[socket.id]].white < 1) {
                         io.to(socketIds[socket.id]).emit("ended", 0);
-                        Match.findOne({ room: socketIds[socket.id] }).then(
-                            (match) => {
-                                match.winner = 0;
-                                match.wtime=timeintervals[socketIds[socket.id]].white;
-                                match.btime=timeintervals[socketIds[socket.id]].black;
-                                match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
-                                match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
-                                match.save();
-                            }
-                        );
                         clearInterval(intervals[socketIds[socket.id]]);
                     }
                 } else {
                     --timeintervals[socketIds[socket.id]].black;
                     if (timeintervals[socketIds[socket.id]].black < 1) {
                         io.to(socketIds[socket.id]).emit("ended", 1);
-                        Match.findOne({ room: socketIds[socket.id] }).then(
-                            (match) => {
-                                match.winner = 1;
-                                match.wtime=timeintervals[socketIds[socket.id]].white;
-                                match.btime=timeintervals[socketIds[socket.id]].black;
-                                match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
-                                match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
-                                match.save();
-                            }
-                        );
                         clearInterval(intervals[socketIds[socket.id]]);
                     }
                 }
@@ -252,18 +190,6 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("start_timer", (data) => {
-        intervals[socketIds[socket.id]] = setInterval(() => {
-            //if()
-            io.to(socketIds[socket.id]).emit(
-                "time_left",
-                --time[socketIds[socket.id]]
-            );
-            console.log(socketIds[socket.id]);
-            console.log(time);
-            console.log(time[socketIds[socket.id]]);
-        }, 1000);
-    });
     socket.on("stop_timer", (data) => {
         clearInterval(timeintervals[socketIds[socket.id]]);
     });
@@ -271,23 +197,11 @@ io.on("connection", (socket) => {
     socket.on("win", (data) => {
         console.log(data + "its over");
         io.to(socketIds[socket.id]).emit("ended", data);
-        Match.findOne({ room: socketIds[socket.id] })
-            .exec()
-            .then((match) => {
-                match.winner = data;
-                match.wtime=timeintervals[socketIds[socket.id]].white;
-                match.btime=timeintervals[socketIds[socket.id]].black;
-                match.wpoint=whitescore(rooms[socketIds[socket.id]].board.BoardState);
-                match.bpoint=blackscore(rooms[socketIds[socket.id]].board.BoardState);
-                match.save();
-            })
-            .catch((err)=>{
-                console.log(err)
-            })
         clearInterval(intervals[socketIds[socket.id]]);
     });
 
     socket.on("disconnect", () => {
+        
         if (rooms[socketIds[socket.id]]) {
             if (rooms[socketIds[socket.id]].white === socket.id) {
                 rooms[socketIds[socket.id]].white = undefined;
@@ -296,8 +210,37 @@ io.on("connection", (socket) => {
                 rooms[socketIds[socket.id]].black = undefined;
                 rooms[socketIds[socket.id]].limit--;
             }
+            if(rooms[socketIds[socket.id]].limit==0){
+                
+                console.log("about to delete")
+                clearInterval(intervals[socketIds[socket.id]])
+                console.log("cleared interval")
+                setTimeout(()=>{
+                    
+                    console.log("timeout")
+                    delete rooms[socketIds[socket.id]];
+                    console.log("cleared rooms")
+                    delete intervals[socketIds[socket.id]];
+                    console.log("deleted interval")
+                    delete timeintervals[socketIds[socket.id]];
+                    console.log("cleared time")
+                },1000);
+                
+                
+            }
+            setTimeout(()=>{
+                console.log("deteing socketid")
+                delete socketIds[socket.id];
+                console.log("cleared")
+            console.log(rooms)
+            console.log(socketIds)
+            console.log(intervals)
+            console.log(timeintervals)
+            },1500);
+            
+            
         }
-
+        
         console.log(`${socket.id} disconnected`);
     });
 });

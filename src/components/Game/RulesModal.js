@@ -40,22 +40,6 @@ export class RulesModal extends Component {
             <Modal.Body>
               <div>
                     
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                    
-                    
-                    
                     <h3>Basic Instructions</h3>
                     <ul>
                       <li>
@@ -74,9 +58,13 @@ export class RulesModal extends Component {
                         (Clockwise for white and Anti-Clockwise for black).
                       </li>
                       <li>
+                        If any Rotation is used, then rotation will be locked for 3 moves, 
+                        (i.e. locked for 2 moves for player who used rotation, and for 1 move for the other player)  
+                      </li>
+                      <li>
                         The game ends if one of the player kills the opponents
                         King or the time of one of the players completely drains
-                        out.
+                        out. (There is no check or checkmate)
                       </li>
                     </ul>
 
@@ -113,8 +101,43 @@ export class RulesModal extends Component {
                       </li>
                     </ul>
                     <img src={bishop_move} class="center"></img>
+                    <h3>Movement of Bishop:</h3>
+                    <ul>
+                      <li>
+                        The bishop cannot cross a cornered wall as shown in move
+                        C.
+                      </li>
+                      <li>
+                        The bishop can however cross a single wall from the edge
+                        as shown in move A or B.
+                      </li>
+                    </ul>
+                    <h3>Movement of Rook:</h3>
+                    <ul>
+                      <li>
+                      It can't jump wall ahead of it.
+                      </li>
+                    </ul>
+                    <h3>Movement of King:</h3>
+                    <ul>
+                      <li>
+                        When king moves straight, it follows rules of rook
+                        </li><li>
+                        When king moves diagonally, it follows rules of Bishop
+
+                      </li>
+                    </ul>
                     <h3>How to play:</h3>
                     <ul>
+                      <li>
+                        One player will click create game on home page after the player connects, he/she will see see Room ID at top left of screen.
+                      </li>
+                      <li>
+                        Now second player will type the Room ID in filed and will click join game.
+                      </li>
+                      <li>
+                        Now to start the game, both players sholud click pn ready button. After this time will start ticking and you are free to play.
+                      </li>
                       <li>
                         To initiate a move, select the piece and then select the
                         destination cell. The piece can be moved only if it is its
