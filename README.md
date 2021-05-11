@@ -20,15 +20,13 @@ This has the codebase of original event used in mains. It is build using MERN st
 After mains, participants and others requsted to host the game so they could play for fun. So we unlinked database (mongodb)(as it was used to store the outcomes of games in event, and we no longer needed it) and made some changes which includes slight UI improvement and some bug fixes.
 
 # Some Snapshots
-<div style="width:500px; margin: auto;">
-<img src="./readme_img/home.png" width=500/>
+<img src="./readme_img/home.png" width=600 style="width:700px; margin: auto;"/>
+<br/>
+<div ">
+<img src="./readme_img/game.png" width=700 style="width:700px; margin: auto;" />
 </div>
 <br/>
-<div style="width:500px; margin: auto;">
-<img src="./readme_img/game.png" width=500/>
-</div>
-<br/>
-<div style="width:450px; margin: auto; border: 3px solid #4287f5;">
+<div style="width:600px; margin: auto;">
 <img src="./readme_img/eg1.png" width=200/>
 <img src="./readme_img/eg2.png" width=200 style="float:right"/>
 </div>
