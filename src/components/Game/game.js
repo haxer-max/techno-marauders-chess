@@ -408,55 +408,7 @@ class Game extends React.Component {
                             );
                         }
                     })()}
-                    {/*{(() => {
-                        if (this.state.ended === 0 && this.state.turn === 1) {
-                            console.log("clear this");
-                            return (
-                                <p className="timeallocate1">
-                                    White is left with{" "}
-                                    <p className="timeremain">
-                                        {Math.floor(this.state.whiteTime / 60)}
-                                        min {this.state.whiteTime % 60}sec
-                                    </p>
-                                </p>
-                            );
-                        } else {
-                            return (
-                                <p className="timeallocate">
-                                    White is left with{" "}
-                                    <p className="timeremain">
-                                        {Math.floor(this.state.whiteTime / 60)}
-                                        min {this.state.whiteTime % 60}sec
-                                    </p>
-                                </p>
-                            );
-                        }
-                    })()}
-                    {(() => {
-                        if (this.state.ended === 0 && this.state.turn === 0) {
-                            console.log("clear this");
-                            return (
-                                <p className="timeallocate1">
-                                    Black is left with{" "}
-                                    <p className="timeremain">
-                                        {Math.floor(this.state.blackTime / 60)}
-                                        min {this.state.blackTime % 60}sec
-                                    </p>
-                                </p>
-                            );
-                        } else {
-                            return (
-                                <p className="timeallocate">
-                                    Black is left with{" "}
-                                    <p className="timeremain">
-                                        {Math.floor(this.state.blackTime / 60)}
-                                        min {this.state.blackTime % 60}sec
-                                    </p>
-                                </p>
-                            );
-                        }
-                    })()}
-                </div>*/}
+                    
 
                 <div
                     class={
