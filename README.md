@@ -22,9 +22,7 @@ After mains, participants and others requsted to host the game so they could pla
 # Some Snapshots
 <img src="./readme_img/home.png" width=600 style="width:700px; margin: auto;"/>
 <br/>
-<div ">
 <img src="./readme_img/game.png" width=700 style="width:700px; margin: auto;" />
-</div>
 <br/>
 <div style="width:600px; margin: auto;">
 <img src="./readme_img/eg1.png" width=200/>
